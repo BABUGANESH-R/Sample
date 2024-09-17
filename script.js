@@ -9,3 +9,7 @@ function sub(a, b) {
 function main() {
 	while (1);
 }
+
+function main() {
+	for (; ;);
+}
