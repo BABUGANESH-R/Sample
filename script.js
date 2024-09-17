@@ -2,6 +2,10 @@ function add(a, b) {
 	return a + b;
 }
 
+function sub(a, b) {
+	return a - b;
+}
+
 function main() {
-	for (; ;);
+	while (1);
 }
