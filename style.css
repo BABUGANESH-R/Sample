@@ -1,3 +1,266 @@
-html {
-    display: block;
+:root {
+  --bg-0: #d7ebe3;
+  --bg-1: #b8d4c8;
+  --ink: #14201c;
+  --muted: #3d524a;
+  --board: #1a2e27;
+  --grid: rgba(215, 235, 227, 0.06);
+  --snake: #7dffa3;
+  --snake-head: #c8ffd9;
+  --food: #ff6b4a;
+  --food-glow: rgba(255, 107, 74, 0.45);
+  --panel: rgba(20, 32, 28, 0.08);
+  --cta: #14201c;
+  --cta-text: #e8f7f0;
+  --radius: 18px;
+  --shadow: 0 24px 60px rgba(20, 32, 28, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Bricolage Grotesque", sans-serif;
+  color: var(--ink);
+  background: var(--bg-0);
+  overflow-x: hidden;
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 55% at 15% 10%, #f3fff8 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 80%, #9ec9b5 0%, transparent 50%),
+    linear-gradient(160deg, var(--bg-0), var(--bg-1));
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(20, 32, 28, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 32, 28, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+}
+
+@keyframes drift {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.04) translate(-1%, 1%); }
+}
+
+.stage {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 1.25rem 1rem 1.75rem;
+}
+
+.brand {
+  text-align: center;
+  animation: rise 0.7s ease-out both;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(3.4rem, 12vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.tagline {
+  margin: 0.45rem 0 0;
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.hud {
+  display: flex;
+  gap: 1.75rem;
+  font-family: "IBM Plex Mono", monospace;
+  animation: rise 0.7s ease-out 0.08s both;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.playfield-wrap {
+  position: relative;
+  width: min(92vw, 400px);
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: rise 0.75s ease-out 0.14s both, pulse-board 3.5s ease-in-out infinite;
+}
+
+@keyframes pulse-board {
+  0%, 100% { box-shadow: var(--shadow); }
+  50% { box-shadow: 0 28px 70px rgba(20, 32, 28, 0.24); }
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--board);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 1.5rem;
+  background: rgba(26, 46, 39, 0.72);
+  color: #e8f7f0;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay-title {
+  margin: 0;
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.overlay-hint {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.cta {
+  margin-top: 0.55rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  background: var(--cta-text);
+  color: var(--cta);
+  font: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+}
+
+.cta:active {
+  transform: translateY(1px);
+}
+
+.controls {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.pad-row {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.pad {
+  width: 3.4rem;
+  height: 3.4rem;
+  border: 0;
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+
+.pad:active {
+  background: rgba(20, 32, 28, 0.16);
+  transform: scale(0.96);
+}
+
+.keys {
+  margin: 0.15rem 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  animation: rise 0.7s ease-out 0.22s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: none), (max-width: 640px) {
+  .controls {
+    display: flex;
+  }
+
+  .keys {
+    display: none;
+  }
+
+  .stage {
+    justify-content: flex-start;
+    padding-top: 1.5rem;
+  }
 }

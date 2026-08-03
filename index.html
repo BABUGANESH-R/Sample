@@ -1,17 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true"></div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <main class="stage">
+    <header class="brand">
+      <h1>Snake</h1>
+      <p class="tagline">Eat, grow, don’t crash.</p>
+    </header>
 
+    <div class="hud">
+      <div class="stat">
+        <span class="stat-label">Score</span>
+        <span class="stat-value" id="score">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Best</span>
+        <span class="stat-value" id="best">0</span>
+      </div>
+    </div>
+
+    <div class="playfield-wrap">
+      <canvas id="game" width="400" height="400" aria-label="Snake game board"></canvas>
+      <div class="overlay" id="overlay">
+        <p class="overlay-title" id="overlay-title">Ready</p>
+        <p class="overlay-hint" id="overlay-hint">Press Space or tap to start</p>
+        <button type="button" class="cta" id="start-btn">Play</button>
+      </div>
+    </div>
+
+    <div class="controls" aria-label="Touch controls">
+      <button type="button" class="pad" data-dir="up" aria-label="Up">▲</button>
+      <div class="pad-row">
+        <button type="button" class="pad" data-dir="left" aria-label="Left">◀</button>
+        <button type="button" class="pad" data-dir="down" aria-label="Down">▼</button>
+        <button type="button" class="pad" data-dir="right" aria-label="Right">▶</button>
+      </div>
+    </div>
+
+    <p class="keys">Arrows / WASD · Space pause · R restart</p>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
