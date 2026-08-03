@@ -1,17 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skylight — Weather Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="sky" aria-hidden="true"></div>
+  <div class="haze" aria-hidden="true"></div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <main class="app">
+    <header class="brand">
+      <p class="brand__mark">Skylight</p>
+      <h1 class="brand__title">A clear read on the sky</h1>
+      <p class="brand__lede">Search any city for temperature, conditions, wind, and a five-day outlook.</p>
+    </header>
 
+    <form class="search" id="search-form" autocomplete="off">
+      <label class="search__label" for="city-input">City</label>
+      <div class="search__row">
+        <input
+          id="city-input"
+          class="search__input"
+          type="text"
+          name="city"
+          placeholder="Try Lisbon, Tokyo, or Denver"
+          required
+          autofocus
+        />
+        <button class="search__button" type="submit">Get weather</button>
+      </div>
+    </form>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <section class="report" id="report" hidden>
+      <div class="report__now">
+        <div class="report__place">
+          <h2 id="location-name"></h2>
+          <p id="location-meta"></p>
+        </div>
+        <div class="report__temp-block">
+          <p class="report__temp" id="temperature"></p>
+          <p class="report__condition" id="condition"></p>
+        </div>
+        <dl class="report__stats">
+          <div>
+            <dt>Humidity</dt>
+            <dd id="humidity"></dd>
+          </div>
+          <div>
+            <dt>Wind</dt>
+            <dd id="wind"></dd>
+          </div>
+          <div>
+            <dt>Feels like</dt>
+            <dd id="feels-like"></dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="forecast">
+        <h3 class="forecast__title">Five-day outlook</h3>
+        <ul class="forecast__list" id="forecast-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
