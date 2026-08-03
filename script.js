@@ -11,7 +11,7 @@
   const COLS = 20;
   const ROWS = 20;
   const CELL = canvas.width / COLS;
-  const BASE_INTERVAL = 130;
+  const BASE_INTERVAL = 150;
   const MIN_INTERVAL = 55;
   const STORAGE_KEY = "snake-best-score";
 
