@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clearlist — Todo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true"></div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <main class="app">
+    <header class="brand">
+      <p class="brand__mark">Clearlist</p>
+      <h1 class="brand__title">What needs doing?</h1>
+      <p class="brand__sub">Capture it, clear it, keep going.</p>
+    </header>
 
+    <form class="composer" id="todo-form" autocomplete="off">
+      <label class="sr-only" for="todo-input">New task</label>
+      <input
+        id="todo-input"
+        class="composer__input"
+        type="text"
+        name="todo"
+        placeholder="Add a task…"
+        maxlength="200"
+        required
+      />
+      <button class="composer__btn" type="submit" aria-label="Add task">
+        <span>Add</span>
+      </button>
+    </form>
+
+    <div class="toolbar" role="group" aria-label="Filter tasks">
+      <button type="button" class="filter is-active" data-filter="all">All</button>
+      <button type="button" class="filter" data-filter="active">Active</button>
+      <button type="button" class="filter" data-filter="done">Done</button>
+      <p class="toolbar__count" id="count" aria-live="polite"></p>
+    </div>
+
+    <ul class="list" id="todo-list" aria-label="Tasks"></ul>
+
+    <p class="empty" id="empty-state" hidden>Nothing here yet. Add your first task above.</p>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
