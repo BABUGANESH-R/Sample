@@ -379,4 +379,31 @@
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !els.win.hidden) els.win.hidden = true;
   });
+
+  // Optional test hook: http://localhost:8080/?debug=1
+  if (new URLSearchParams(location.search).has("debug")) {
+    window.__SHIFT = {
+      state,
+      showGame,
+      newGame,
+      tryMove,
+      setNearWin() {
+        const n = state.size * state.size;
+        // One legal move away from solved (always solvable).
+        state.tiles = Array.from({ length: n }, (_, i) => (i + 1) % n);
+        const left = n - 2;
+        [state.tiles[left], state.tiles[n - 1]] = [state.tiles[n - 1], state.tiles[left]];
+        state.empty = left;
+        state.moves = 0;
+        state.won = false;
+        state.hintIndex = null;
+        state.startedAt = null;
+        els.moves.textContent = "0";
+        els.board.classList.remove("board--won");
+        els.win.hidden = true;
+        resetClock();
+        renderBoard();
+      },
+    };
+  }
 })();
