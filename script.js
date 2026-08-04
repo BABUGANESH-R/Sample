@@ -2,7 +2,7 @@
   const CELL = 20;
   const COLS = 20;
   const ROWS = 20;
-  const TICK_MS = 110;
+  const TICK_MS = 140;
 
   const canvas = document.getElementById("board");
   const ctx = canvas.getContext("2d");
