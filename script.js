@@ -35,6 +35,7 @@
   let best = Number(localStorage.getItem("snake-best") || 0);
   let running = false;
   let paused = false;
+  let awaitingInput = false;
   let timer = null;
   let eatPulse = 0;
 
@@ -84,6 +85,7 @@
   function start() {
     if (running && paused) {
       paused = false;
+      awaitingInput = false;
       setOverlay("", "", "Play", false);
       loop();
       return;
@@ -91,12 +93,13 @@
     reset();
     running = true;
     paused = false;
+    awaitingInput = true;
+    clearTimeout(timer);
     setOverlay("", "", "Play", false);
-    loop();
   }
 
   function pause() {
-    if (!running || paused) return;
+    if (!running || paused || awaitingInput) return;
     paused = true;
     clearTimeout(timer);
     setOverlay("Paused", "Press Space or tap to resume", "Resume", true);
@@ -105,6 +108,7 @@
   function gameOver() {
     running = false;
     paused = false;
+    awaitingInput = false;
     clearTimeout(timer);
     if (score > best) {
       best = score;
@@ -148,9 +152,9 @@
 
   function loop() {
     clearTimeout(timer);
-    if (!running || paused) return;
+    if (!running || paused || awaitingInput) return;
     step();
-    if (running && !paused) {
+    if (running && !paused && !awaitingInput) {
       timer = setTimeout(loop, TICK_MS);
     }
   }
@@ -233,9 +237,16 @@
 
   function queueDir(name) {
     if (!DIRS[name]) return;
+    if (!running) start();
+    if (awaitingInput) {
+      dir = name;
+      nextDir = name;
+      awaitingInput = false;
+      loop();
+      return;
+    }
     if (OPPOSITE[name] === dir) return;
     nextDir = name;
-    if (!running) start();
   }
 
   function onKey(e) {
@@ -276,5 +287,5 @@
   });
 
   reset();
-  setOverlay("Ready?", "Press Space or tap to start", "Play", true);
+  setOverlay("Ready?", "Press Play, then steer with arrows", "Play", true);
 })();

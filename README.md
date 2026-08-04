@@ -6,6 +6,7 @@ A simple browser Snake game.
 
 Open `index.html` in a browser.
 
+- **Start:** Click Play (or Space), then press a direction to begin moving
 - **Move:** Arrow keys or WASD
 - **Pause / resume:** Space
 - **Touch:** On-screen D-pad (phones/tablets)
