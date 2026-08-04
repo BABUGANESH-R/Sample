@@ -238,6 +238,8 @@
   function queueDir(name) {
     if (!DIRS[name]) return;
     if (!running) start();
+    // Never reverse into the body — including the first move after Play.
+    if (OPPOSITE[name] === dir) return;
     if (awaitingInput) {
       dir = name;
       nextDir = name;
@@ -245,7 +247,6 @@
       loop();
       return;
     }
-    if (OPPOSITE[name] === dir) return;
     nextDir = name;
   }
 
