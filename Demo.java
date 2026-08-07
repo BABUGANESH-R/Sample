@@ -1,26 +1,30 @@
 public class Demo {
 
-    int total;
+    int ruby;
 
     public static void main(String args[]) {
 
-        byte a = 10;
-        for (;;) {
+        int a = 10;
+        while (true) {
 
         }
     }
 
-    public int add(int b, int a) {
-        this.total = a + b;
+    public int add(int a, int b) {
+        this.ruby = a + b;
         return a + b;
     }
 
-    public void display() {
-        System.out.println("Hello world");
+    public int sub(int a, int b) {
+        this.ruby = a - b;
+        return a - b;
     }
 
-    public int sub(int b, int a) {
-        this.total = a - b;
-        return a - b;
+    /**
+     * Display
+     */
+
+    public void display() {
+        System.out.println("Hello");
     }
 }
