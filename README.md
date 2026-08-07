@@ -20,3 +20,9 @@ Then visit `http://localhost:8080`.
 - Legal-move highlights
 - Captured pieces list
 - Undo and new game
+
+## Tests
+
+```bash
+node chess-engine.test.js
+```
