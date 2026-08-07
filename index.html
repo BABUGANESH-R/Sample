@@ -1,17 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess</title>
+  <meta name="description" content="A simple two-player chess game. Tap a piece, then a square." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true"></div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <main class="stage">
+    <header class="brand">
+      <h1>Chess</h1>
+      <p>Two players. One board. Your move.</p>
+    </header>
 
+    <section class="status" aria-live="polite">
+      <p id="turn-label" class="turn">White to move</p>
+      <p id="message" class="message" hidden></p>
+    </section>
+
+    <div class="board-shell">
+      <div id="board" class="board" role="grid" aria-label="Chess board"></div>
+    </div>
+
+    <section class="captured" aria-label="Captured pieces">
+      <div class="captured-row">
+        <span class="captured-label">White took</span>
+        <div id="captured-by-white" class="captured-pieces"></div>
+      </div>
+      <div class="captured-row">
+        <span class="captured-label">Black took</span>
+        <div id="captured-by-black" class="captured-pieces"></div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="new-game" type="button">New game</button>
+      <button id="undo" type="button" class="ghost">Undo</button>
+    </div>
+
+    <p class="hint">Tap a piece, then a highlighted square · White moves first</p>
+  </main>
+
+  <div id="promote-modal" class="modal" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="promote-title">
+      <p id="promote-title" class="modal-title">Promote pawn</p>
+      <div id="promote-choices" class="promote-choices"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
