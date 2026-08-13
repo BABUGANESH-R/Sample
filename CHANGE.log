@@ -1,0 +1,18 @@
+# CHANGE.log — Chess
+
+## 2026-08-07 — Simple browser chess game
+
+### Added
+- Two-player chess playable in the browser (`index.html`, `script.js`, `style.css`)
+- Full piece movement for king, queen, rook, bishop, knight, and pawn
+- Castling, en passant, and pawn promotion
+- Check, checkmate, and stalemate detection
+- Legal-move highlights and last-move markers
+- Captured pieces display
+- Undo and New game controls
+- Favicon and branded board UI
+- Engine sanity tests in `chess-engine.test.js`
+
+### Notes
+- White moves first
+- Open `index.html` or serve the folder with any static file server
