@@ -276,6 +276,7 @@ function maybeDropPickup(x, y) {
 }
 
 function fireBullet() {
+  if (game.state !== STATE.PLAYING) return;
   const player = game.player;
   if (!player || player.cooldown > 0) return;
   player.cooldown = game.rapidFire > 0 ? 0.08 : 0.18;
@@ -328,7 +329,7 @@ function updateWaves(dt) {
   if (game.spawnQueue.length > 0) {
     game.spawnCooldown -= dt;
     if (game.spawnCooldown <= 0) {
-      spawnEnemy(game.spawnQueue.pop());
+      spawnEnemy(game.spawnQueue.shift());
       game.spawnCooldown = Math.max(0.18, 0.55 - game.wave * 0.03);
     }
     return;
@@ -569,7 +570,8 @@ function bindEvents() {
       else if (game.state === STATE.PAUSED) resumeGame();
     }
     if (event.code === "Enter" && game.state !== STATE.PLAYING) {
-      startGame();
+      if (game.state === STATE.PAUSED) resumeGame();
+      else startGame();
     }
   });
 
