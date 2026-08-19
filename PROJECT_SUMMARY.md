@@ -2,7 +2,7 @@
 
 ## Executive Overview
 
-A comprehensive, production-ready dashboard system has been created to track and visualize statistics across three browser-based games: Chess, RIDDLE (puzzles), and Snake.
+A comprehensive, production-ready dashboard system has been created to track and visualize statistics across four browser-based games: Chess, RIDDLE (puzzles), Snake, and Military (Outpost Defense).
 
 ## What Was Built
 
@@ -36,7 +36,7 @@ A comprehensive, production-ready dashboard system has been created to track and
 - **Code:** ~3,000 lines
 - **Documentation:** ~2,300 lines
 - **Features Implemented:** 50+
-- **Games Supported:** 3 (Chess, RIDDLE, Snake)
+- **Games Supported:** 4 (Chess, RIDDLE, Snake, Military)
 - **Puzzle Types Tracked:** 5 different types
 
 ## Key Features

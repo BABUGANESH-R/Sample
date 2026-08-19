@@ -11,6 +11,7 @@ This document provides a complete overview of all features in the Games Dashboar
 - Total games played (Chess)
 - Total puzzles solved (RIDDLE)
 - High score display (Snake)
+- High score display (Military)
 - Total play time across all games
 - Quick play links to launch each game
 
@@ -103,6 +104,25 @@ This document provides a complete overview of all features in the Games Dashboar
 - Score display
 - Date tracking
 
+#### Military Dashboard ⚔
+
+**Statistics Display**
+- Extra-large high score display
+- Games played count
+- Best wave reached
+- Total hostiles defeated
+- Average score
+
+**Leaderboard**
+- Top 10 scores ranked
+- Wave number and date
+- Sorted by score descending
+
+**Recent Missions**
+- Last 10 missions
+- Kill counts
+- Record indicators
+
 ### 3. Integration System
 
 **Easy Integration Module** (`game-stats-tracker.js`)
@@ -114,6 +134,7 @@ GameStatsTracker.saveSlidePuzzle(data)
 GameStatsTracker.saveMatchPuzzle(data)
 GameStatsTracker.saveEchoGame(data)
 GameStatsTracker.saveSnakeGame(data)
+GameStatsTracker.saveMilitaryGame(data)
 ```
 
 **Retrieval Methods**
@@ -121,6 +142,7 @@ GameStatsTracker.saveSnakeGame(data)
 GameStatsTracker.getChessStats()
 GameStatsTracker.getRiddleStats()
 GameStatsTracker.getSnakeStats()
+GameStatsTracker.getMilitaryStats()
 ```
 
 **UI Helpers**

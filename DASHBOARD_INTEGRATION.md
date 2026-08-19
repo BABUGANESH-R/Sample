@@ -4,10 +4,11 @@ This guide explains how to integrate the dashboard system into each game.
 
 ## Overview
 
-The dashboard system tracks statistics for three games:
+The dashboard system tracks statistics for four games:
 - **Chess**: Game outcomes, move counts, captures
 - **RIDDLE**: Puzzle completion times, scores for Slide/Match/Echo
 - **Snake**: High scores, game history, averages
+- **Military**: Outpost Defense scores, waves, and kills
 
 ## Files
 
@@ -141,6 +142,34 @@ function gameOver() {
 }
 ```
 
+#### Military Integration (Outpost Defense)
+
+When a mission ends:
+
+```javascript
+GameStatsTracker.saveMilitaryGame({
+  score: 240,
+  wave: 4,
+  kills: 18,
+  duration: 2
+});
+```
+
+**Example Integration:**
+
+```javascript
+function gameOver() {
+  const durationMinutes = Math.floor((Date.now() - gameStartTime) / 60000) || 1;
+
+  GameStatsTracker.saveMilitaryGame({
+    score: currentScore,
+    wave: currentWave,
+    kills: currentKills,
+    duration: durationMinutes
+  });
+}
+```
+
 ## Getting Current Stats
 
 You can retrieve current statistics to display in your game:
@@ -160,6 +189,11 @@ console.log(`Echo best: ${riddleStats.echoBest}`);
 const snakeStats = GameStatsTracker.getSnakeStats();
 console.log(`High score: ${snakeStats.highScore}`);
 console.log(`Games played: ${snakeStats.gamesPlayed}`);
+
+// Military stats
+const militaryStats = GameStatsTracker.getMilitaryStats();
+console.log(`High score: ${militaryStats.highScore}`);
+console.log(`Best wave: ${militaryStats.bestWave}`);
 ```
 
 ## Customization
@@ -187,6 +221,8 @@ All game statistics are stored in browser `localStorage`:
 - `snake-stats`: Snake game history (last 100 games)
 - `snake-best`: Snake high score
 - `echo-best`: Echo best level
+- `military-stats`: Outpost Defense mission history (last 100 games)
+- `military-best`: Outpost Defense high score
 
 ## Testing
 
@@ -209,6 +245,7 @@ The dashboard expects these file names for the game links:
 - Chess: `chess.html`
 - RIDDLE: `riddle.html`
 - Snake: `snake.html`
+- Military: `military.html`
 
 If your game files have different names, update the links in `dashboard.html`:
 
