@@ -28,9 +28,9 @@ const STATE = {
 };
 
 const ENEMY_TYPES = {
-  infantry: { hp: 1, speed: 78, radius: 12, score: 10, color: "#8b3a2a" },
-  runner: { hp: 1, speed: 128, radius: 10, score: 15, color: "#c45c2a" },
-  heavy: { hp: 3, speed: 48, radius: 16, score: 30, color: "#4a2a22" },
+  infantry: { hp: 1, speed: 52, radius: 14, score: 10, color: "#8b3a2a" },
+  runner: { hp: 1, speed: 86, radius: 12, score: 15, color: "#c45c2a" },
+  heavy: { hp: 3, speed: 36, radius: 18, score: 30, color: "#4a2a22" },
 };
 
 const world = { w: 960, h: 640 };
@@ -113,8 +113,8 @@ function createPlayer() {
     x: world.w / 2,
     y: world.h / 2,
     angle: -Math.PI / 2,
-    speed: 186,
-    radius: 13,
+    speed: 210,
+    radius: 14,
     cooldown: 0,
   };
 }
@@ -158,10 +158,10 @@ function resetGame() {
   game.enemies = [];
   game.particles = [];
   game.pickups = [];
-  game.waveTimer = 0.8;
+  game.waveTimer = 2.2;
   game.spawnQueue = [];
   game.spawnCooldown = 0;
-  game.invuln = 0;
+  game.invuln = 2;
   game.rapidFire = 0;
   updateHud();
 }
@@ -214,9 +214,9 @@ function saveStats() {
 
 function queueWave() {
   game.wave += 1;
-  const infantry = 3 + game.wave;
-  const runners = Math.floor(game.wave / 2);
-  const heavies = Math.floor((game.wave - 1) / 3);
+  const infantry = 2 + Math.floor(game.wave * 0.7);
+  const runners = Math.max(0, Math.floor((game.wave - 2) / 2));
+  const heavies = Math.max(0, Math.floor((game.wave - 3) / 3));
   game.spawnQueue = [];
   for (let i = 0; i < infantry; i += 1) game.spawnQueue.push("infantry");
   for (let i = 0; i < runners; i += 1) game.spawnQueue.push("runner");
@@ -279,24 +279,24 @@ function fireBullet() {
   if (game.state !== STATE.PLAYING) return;
   const player = game.player;
   if (!player || player.cooldown > 0) return;
-  player.cooldown = game.rapidFire > 0 ? 0.08 : 0.18;
+  player.cooldown = game.rapidFire > 0 ? 0.07 : 0.12;
   const muzzle = 20;
   const x = player.x + Math.cos(player.angle) * muzzle;
   const y = player.y + Math.sin(player.angle) * muzzle;
   game.bullets.push({
     x,
     y,
-    vx: Math.cos(player.angle) * 520,
-    vy: Math.sin(player.angle) * 520,
-    life: 0.85,
+    vx: Math.cos(player.angle) * 640,
+    vy: Math.sin(player.angle) * 640,
+    life: 0.9,
   });
-  spawnBurst(x, y, "#f4d27a", 4, 80);
+  spawnBurst(x, y, "#f4d27a", 6, 90);
 }
 
 function damagePlayer(amount) {
   if (game.invuln > 0) return;
   game.health -= amount;
-  game.invuln = 0.55;
+  game.invuln = 0.8;
   spawnBurst(game.player.x, game.player.y, "#d9783a", 10, 140);
   updateHud();
   if (game.health <= 0) {
@@ -330,7 +330,7 @@ function updateWaves(dt) {
     game.spawnCooldown -= dt;
     if (game.spawnCooldown <= 0) {
       spawnEnemy(game.spawnQueue.shift());
-      game.spawnCooldown = Math.max(0.18, 0.55 - game.wave * 0.03);
+      game.spawnCooldown = Math.max(0.28, 0.75 - game.wave * 0.04);
     }
     return;
   }
@@ -351,7 +351,7 @@ function updateEnemies(dt) {
     enemy.y += Math.sin(angle) * enemy.speed * dt;
     enemy.hitFlash = Math.max(0, enemy.hitFlash - dt);
     if (dist(enemy, player) < enemy.radius + player.radius - 2) {
-      damagePlayer(enemy.type === "heavy" ? 18 : 12);
+      damagePlayer(enemy.type === "heavy" ? 12 : 8);
     }
   }
 }
@@ -367,7 +367,7 @@ function updateBullets(dt) {
     if (bullet.life <= 0) continue;
     for (const enemy of game.enemies) {
       if (enemy.hp <= 0) continue;
-      if (dist(bullet, enemy) < enemy.radius + 4) {
+      if (dist(bullet, enemy) < enemy.radius + 10) {
         bullet.life = 0;
         enemy.hp -= 1;
         enemy.hitFlash = 0.08;
@@ -503,12 +503,16 @@ function draw() {
   }
 
   for (const bullet of game.bullets) {
-    ctx.strokeStyle = "#f4d27a";
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#ffe27a";
+    ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(bullet.x, bullet.y);
-    ctx.lineTo(bullet.x - bullet.vx * 0.03, bullet.y - bullet.vy * 0.03);
+    ctx.lineTo(bullet.x - bullet.vx * 0.04, bullet.y - bullet.vy * 0.04);
     ctx.stroke();
+    ctx.fillStyle = "#fff4c2";
+    ctx.beginPath();
+    ctx.arc(bullet.x, bullet.y, 3, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   for (const enemy of game.enemies) {
