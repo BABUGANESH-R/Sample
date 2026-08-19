@@ -2,6 +2,19 @@
 
 All notable changes to the Games Dashboard System will be documented in this file.
 
+## [1.1.0] - 2026-08-19
+
+### Added
+
+**RIDDLE Puzzle App**
+- Playable Slide, Match, and Echo puzzles at `index.html`
+- Hub with three puzzle cards and deep links (`#slide`, `#match`, `#echo`)
+- Slide: 3×3 / 4×4 boards, shuffle, keyboard and swipe controls
+- Match: eight-pair memory game with try and time tracking
+- Echo: Simon-style pattern game with local best level
+- Completions save through `game-stats-tracker.js` into the dashboard
+- `riddle.html` alias so dashboard Play RIDDLE links open the app
+
 ## [1.0.0] - 2026-08-07
 
 ### 🎉 Initial Release
