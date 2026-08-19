@@ -1,3 +1,30 @@
+# Sample
+
+This repository includes a simple Java Hello World program plus a games dashboard for tracking browser-based game statistics.
+
+## Java Hello World
+
+`HelloWorld.java` prints `Hello, World!` to the console.
+
+### Requirements
+
+- Java JDK 8 or later (`javac` and `java` on your PATH)
+
+### Compile and run
+
+```bash
+javac HelloWorld.java
+java HelloWorld
+```
+
+Expected output:
+
+```
+Hello, World!
+```
+
+---
+
 # Games Dashboard System
 
 A comprehensive dashboard system for tracking and visualizing game statistics across multiple browser-based games.
