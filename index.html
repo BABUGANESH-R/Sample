@@ -1,17 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIDDLE — Puzzle Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="noise" aria-hidden="true"></div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <header class="topbar">
+    <button type="button" class="brand" id="home-btn" aria-label="Back to puzzle hub">
+      <span class="brand-mark">▣</span>
+      <span class="brand-name">RIDDLE</span>
+    </button>
+    <nav class="topbar-actions">
+      <a class="ghost-link" href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
 
+  <main id="app">
+    <section id="hub" class="screen" data-screen="hub">
+      <p class="eyebrow">Three quiet puzzles</p>
+      <h1>Pick a puzzle. Train your mind.</h1>
+      <p class="lede">Slide tiles into order, match hidden pairs, or replay a growing melody. Stats save to your local dashboard.</p>
+
+      <div class="hub-grid">
+        <button type="button" class="hub-card" data-play="slide">
+          <span class="hub-icon" aria-hidden="true">⊞</span>
+          <span class="hub-title">Slide</span>
+          <span class="hub-copy">Nudge numbered tiles into place. 3×3 or 4×4.</span>
+          <span class="hub-cta">Play Slide</span>
+        </button>
+        <button type="button" class="hub-card" data-play="match">
+          <span class="hub-icon" aria-hidden="true">◇</span>
+          <span class="hub-title">Match</span>
+          <span class="hub-copy">Flip cards and find eight pairs with a sharp memory.</span>
+          <span class="hub-cta">Play Match</span>
+        </button>
+        <button type="button" class="hub-card" data-play="echo">
+          <span class="hub-icon" aria-hidden="true">◎</span>
+          <span class="hub-title">Echo</span>
+          <span class="hub-copy">Watch the lights, then tap the sequence back.</span>
+          <span class="hub-cta">Play Echo</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="slide" class="screen" data-screen="slide" hidden>
+      <div class="game-head">
+        <div>
+          <p class="eyebrow">Slide puzzle</p>
+          <h2>Restore the grid</h2>
+        </div>
+        <div class="meters">
+          <div class="meter"><span>Moves</span><strong id="slide-moves">0</strong></div>
+          <div class="meter"><span>Time</span><strong id="slide-time">0:00</strong></div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="segmented" role="group" aria-label="Board size">
+          <button type="button" data-slide-size="3">3×3</button>
+          <button type="button" data-slide-size="4" class="is-active">4×4</button>
+        </div>
+        <button type="button" class="btn" id="slide-shuffle">Shuffle</button>
+      </div>
+      <div id="slide-board" class="slide-board size-4" role="grid" aria-label="Sliding puzzle board"></div>
+      <p class="hint">Click a tile beside the gap, or use arrow keys.</p>
+    </section>
+
+    <section id="match" class="screen" data-screen="match" hidden>
+      <div class="game-head">
+        <div>
+          <p class="eyebrow">Match puzzle</p>
+          <h2>Find every pair</h2>
+        </div>
+        <div class="meters">
+          <div class="meter"><span>Tries</span><strong id="match-tries">0</strong></div>
+          <div class="meter"><span>Pairs</span><strong id="match-pairs">0 / 8</strong></div>
+          <div class="meter"><span>Time</span><strong id="match-time">0:00</strong></div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button type="button" class="btn" id="match-restart">New board</button>
+      </div>
+      <div id="match-board" class="match-board" role="grid" aria-label="Memory cards"></div>
+    </section>
+
+    <section id="echo" class="screen" data-screen="echo" hidden>
+      <div class="game-head">
+        <div>
+          <p class="eyebrow">Echo game</p>
+          <h2>Repeat the pattern</h2>
+        </div>
+        <div class="meters">
+          <div class="meter"><span>Level</span><strong id="echo-level">1</strong></div>
+          <div class="meter"><span>Status</span><strong id="echo-status">Ready</strong></div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button type="button" class="btn btn-accent" id="echo-start">Start</button>
+      </div>
+      <div id="echo-pads" class="echo-pads" role="group" aria-label="Echo pads">
+        <button type="button" class="echo-pad pad-0" data-pad="0" aria-label="Teal pad"></button>
+        <button type="button" class="echo-pad pad-1" data-pad="1" aria-label="Gold pad"></button>
+        <button type="button" class="echo-pad pad-2" data-pad="2" aria-label="Coral pad"></button>
+        <button type="button" class="echo-pad pad-3" data-pad="3" aria-label="Violet pad"></button>
+      </div>
+      <p class="hint">Watch, wait, then tap the same order. One miss ends the run.</p>
+    </section>
+  </main>
+
+  <div id="win" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="win-title" aria-modal="true">
+      <p class="eyebrow" id="win-kicker">Solved</p>
+      <h2 id="win-title">Puzzle complete</h2>
+      <p id="win-detail"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-accent" id="win-again">Play again</button>
+        <button type="button" class="btn" id="win-hub">All puzzles</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
