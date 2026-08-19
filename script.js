@@ -35,6 +35,7 @@
     hideWin();
     if (name !== "slide") Slide.stop();
     if (name !== "match") Match.stop();
+    if (name !== "echo") Echo.reset();
     activeGame = name === "hub" ? null : name;
     const nextHash = name === "hub" ? "" : `#${name}`;
     if (location.hash !== nextHash) {
@@ -309,6 +310,7 @@
     let lock = false;
     let startedAt = 0;
     let timerId = null;
+    let dealId = 0;
 
     function shuffle(arr) {
       const a = arr.slice();
@@ -395,7 +397,9 @@
         }
       } else {
         lock = true;
+        const currentDeal = dealId;
         setTimeout(() => {
+          if (currentDeal !== dealId) return;
           cards[a].flipped = false;
           cards[b].flipped = false;
           flipped = [];
@@ -406,6 +410,7 @@
     }
 
     function start() {
+      dealId += 1;
       const deck = shuffle([...SYMBOLS, ...SYMBOLS]).map((symbol) => ({
         symbol,
         flipped: false,
@@ -424,6 +429,7 @@
     }
 
     function stop() {
+      dealId += 1;
       lock = true;
       stopTimer();
     }
@@ -448,6 +454,7 @@
     let accepting = false;
     let pads = [];
     let startedAt = 0;
+    let roundId = 0;
 
     function setStatus(text) {
       statusEl.textContent = text;
@@ -486,14 +493,17 @@
     }
 
     async function playSequence() {
+      const id = roundId;
       accepting = false;
       pads.forEach((p) => {
         p.disabled = true;
       });
       setStatus("Watch the pattern");
       await sleep(450);
+      if (id !== roundId) return;
       for (const idx of sequence) {
         await light(idx);
+        if (id !== roundId) return;
       }
       accepting = true;
       step = 0;
@@ -515,7 +525,9 @@
 
     async function onPad(i) {
       if (!accepting) return;
+      const id = roundId;
       await light(i, 220);
+      if (id !== roundId) return;
       if (i !== sequence[step]) {
         accepting = false;
         pads.forEach((p) => {
@@ -540,12 +552,14 @@
         updateHud();
         setStatus("Nice — next pattern…");
         await sleep(500);
+        if (id !== roundId) return;
         sequence.push(Math.floor(Math.random() * 4));
         playSequence();
       }
     }
 
     function startRound(fromScratch = true) {
+      roundId += 1;
       if (fromScratch) {
         level = 1;
         sequence = [Math.floor(Math.random() * 4)];
@@ -557,6 +571,7 @@
     }
 
     function reset() {
+      roundId += 1;
       level = 1;
       sequence = [];
       accepting = false;

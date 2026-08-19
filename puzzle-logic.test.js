@@ -63,6 +63,54 @@ for (const size of [3, 4]) {
   }
 }
 
+function neighbors(board, size) {
+  const empty = board.indexOf(0);
+  const r = Math.floor(empty / size);
+  const c = empty % size;
+  const next = [];
+  for (const [dr, dc] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+    const nr = r + dr;
+    const nc = c + dc;
+    if (nr < 0 || nc < 0 || nr >= size || nc >= size) continue;
+    const ni = nr * size + nc;
+    const copy = board.slice();
+    [copy[empty], copy[ni]] = [copy[ni], copy[empty]];
+    next.push(copy);
+  }
+  return next;
+}
+
+function canSolve(start, size, limit = 200000) {
+  const goal = Array.from({ length: size * size }, (_, i) =>
+    i === size * size - 1 ? 0 : i + 1
+  ).join(",");
+  const queue = [start];
+  const seen = new Set([start.join(",")]);
+  for (let i = 0; i < queue.length && i < limit; i++) {
+    const cur = queue[i];
+    if (cur.join(",") === goal) return true;
+    for (const n of neighbors(cur, size)) {
+      const key = n.join(",");
+      if (seen.has(key)) continue;
+      seen.add(key);
+      queue.push(n);
+    }
+  }
+  return false;
+}
+
+assert("one-move 3x3 is solvable by search", canSolve([1, 2, 3, 4, 5, 6, 7, 0, 8], 3));
+assert("two-move 3x3 is solvable by search", canSolve([1, 2, 3, 4, 5, 0, 7, 8, 6], 3));
+assert("unsolvable 3x3 is not marked solvable", !isSolvable([1, 2, 3, 4, 5, 6, 8, 7, 0], 3));
+
+const symbols = ["▲", "●", "■", "◆", "✚", "★", "☾", "✿"];
+const deck = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+assert("match deck has 16 cards", deck.length === 16);
+assert(
+  "match deck has eight pairs",
+  symbols.every((s) => deck.filter((x) => x === s).length === 2)
+);
+
 const failed = tests.filter((t) => !t.ok);
 console.log(`${tests.length - failed.length}/${tests.length} checks passed`);
 if (failed.length) {
