@@ -2,6 +2,20 @@
 
 All notable changes to the Games Dashboard System will be documented in this file.
 
+## [1.1.0] - 2026-08-19
+
+### Added
+
+**Outpost Defense Mini Military Game**
+- Top-down wave defense shooter (`military.html`)
+- WASD movement, mouse aim, click or Space to fire
+- Infantry, runner, and heavy enemy types
+- Medkit and rapid-fire pickups
+- Pause, game-over summary, and touch controls
+- Dashboard tracking for score, wave, kills, and high score
+- `saveMilitaryGame()` / `getMilitaryStats()` in the stats tracker
+- Military dashboard view, overview card, and quick-play link
+
 ## [1.0.0] - 2026-08-07
 
 ### 🎉 Initial Release

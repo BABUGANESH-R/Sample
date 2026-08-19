@@ -124,6 +124,35 @@ class GameStatsTracker {
   }
 
   /**
+   * Military Game Tracking (Outpost Defense)
+   */
+  static saveMilitaryGame(gameData) {
+    const stats = JSON.parse(localStorage.getItem('military-stats') || '{"games": []}');
+
+    stats.games.push({
+      timestamp: Date.now(),
+      score: gameData.score || 0,
+      wave: gameData.wave || 1,
+      kills: gameData.kills || 0,
+      duration: gameData.duration || 1, // in minutes
+    });
+
+    if (stats.games.length > 100) {
+      stats.games = stats.games.slice(-100);
+    }
+
+    localStorage.setItem('military-stats', JSON.stringify(stats));
+
+    const currentBest = parseInt(localStorage.getItem('military-best') || '0', 10);
+    if ((gameData.score || 0) > currentBest) {
+      localStorage.setItem('military-best', gameData.score);
+      this.showSaveNotification('New Outpost Defense record!');
+    } else {
+      this.showSaveNotification('Outpost Defense saved!');
+    }
+  }
+
+  /**
    * Dashboard Link Helper
    */
   static addDashboardLink(containerId = 'body') {
@@ -260,6 +289,20 @@ class GameStatsTracker {
       highScore: parseInt(localStorage.getItem('snake-best') || '0'),
       avgScore: data.games.length > 0
         ? Math.round(data.games.reduce((sum, g) => sum + g.score, 0) / data.games.length)
+        : 0,
+    };
+  }
+
+  static getMilitaryStats() {
+    const data = JSON.parse(localStorage.getItem('military-stats') || '{"games": []}');
+    const highScore = parseInt(localStorage.getItem('military-best') || '0', 10);
+    return {
+      gamesPlayed: data.games.length,
+      highScore,
+      bestWave: data.games.length > 0 ? Math.max(...data.games.map(g => g.wave || 1)) : 0,
+      totalKills: data.games.reduce((sum, g) => sum + (g.kills || 0), 0),
+      avgScore: data.games.length > 0
+        ? Math.round(data.games.reduce((sum, g) => sum + (g.score || 0), 0) / data.games.length)
         : 0,
     };
   }

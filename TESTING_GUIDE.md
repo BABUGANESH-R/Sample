@@ -71,6 +71,16 @@ You should now see a populated dashboard with sample data for all games.
 - [ ] Verify recent games list
 - [ ] Check for record indicator (🏆) on high scores
 
+#### Military Dashboard
+- [ ] Verify high score displays prominently
+- [ ] Check games played count
+- [ ] Verify best wave
+- [ ] Check total kills
+- [ ] Verify average score calculation
+- [ ] Verify top 10 leaderboard shows scores in descending order
+- [ ] Verify recent missions list
+- [ ] Check for record indicator (🏆) on high scores
+
 #### Data Management
 - [ ] Click "Clear All Data" button
 - [ ] Verify confirmation modal appears
@@ -231,6 +241,13 @@ console.log(localStorage.getItem('snake-best'));
 // Should show: number
 
 console.log(localStorage.getItem('echo-best'));
+// Should show: number
+
+// Military
+console.log(JSON.parse(localStorage.getItem('military-stats')));
+// Should show: { games: [...] }
+
+console.log(localStorage.getItem('military-best'));
 // Should show: number
 ```
 
