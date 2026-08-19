@@ -1,17 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="page">
+    <header class="header">
+      <p class="eyebrow">Today</p>
+      <h1>What needs doing?</h1>
+      <p class="lede">Add a task, check it off, or tidy the list. Everything stays in this browser.</p>
+    </header>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+    <main class="card">
+      <form id="todo-form" class="composer" autocomplete="off">
+        <label class="sr-only" for="todo-input">New task</label>
+        <input
+          id="todo-input"
+          name="title"
+          type="text"
+          maxlength="180"
+          placeholder="Write a task and press Enter"
+          required
+        >
+        <button type="submit" class="add-btn">Add</button>
+      </form>
 
+      <div class="toolbar">
+        <p id="count" class="count" aria-live="polite">0 remaining</p>
+        <div class="filters" role="tablist" aria-label="Filter tasks">
+          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter" data-filter="active" aria-pressed="false">Active</button>
+          <button type="button" class="filter" data-filter="completed" aria-pressed="false">Done</button>
+        </div>
+      </div>
+
+      <ul id="todo-list" class="todo-list"></ul>
+
+      <div id="empty" class="empty" hidden>
+        <p class="empty-title">Nothing here yet</p>
+        <p>Add your first task above. Small lists are easier to finish.</p>
+      </div>
+
+      <footer class="footer">
+        <button type="button" id="clear-completed" class="text-btn" hidden>
+          Clear completed
+        </button>
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
