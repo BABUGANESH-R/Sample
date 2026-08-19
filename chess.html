@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="chess.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">♟️</span>
+        <div>
+          <h1>Chess</h1>
+          <p>Local two-player game</p>
+        </div>
+      </div>
+      <a class="dashboard-link" href="dashboard.html">View Dashboard</a>
+    </header>
+
+    <main class="layout">
+      <aside class="panel panel-left">
+        <section class="card status-card">
+          <p class="eyebrow">Status</p>
+          <h2 id="turn-label">White to move</h2>
+          <p id="status-detail">Select a piece, then a highlighted square.</p>
+        </section>
+
+        <section class="card">
+          <p class="eyebrow">Captured by White</p>
+          <div id="captured-white" class="captured-row"></div>
+          <p class="eyebrow">Captured by Black</p>
+          <div id="captured-black" class="captured-row"></div>
+        </section>
+
+        <section class="card actions">
+          <button id="btn-new" class="btn btn-primary">New Game</button>
+          <button id="btn-undo" class="btn">Undo</button>
+          <button id="btn-flip" class="btn">Flip Board</button>
+          <button id="btn-resign" class="btn btn-danger">Resign</button>
+          <button id="btn-draw" class="btn">Draw</button>
+        </section>
+      </aside>
+
+      <section class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Chess board"></div>
+        <div class="file-labels" id="file-labels"></div>
+      </section>
+
+      <aside class="panel panel-right">
+        <section class="card history-card">
+          <p class="eyebrow">Move History</p>
+          <ol id="move-list" class="move-list"></ol>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="promotion-modal" class="modal" hidden>
+    <div class="modal-card">
+      <h3>Promote pawn</h3>
+      <p>Choose a piece</p>
+      <div class="promo-choices">
+        <button data-promo="queen" class="btn">Queen</button>
+        <button data-promo="rook" class="btn">Rook</button>
+        <button data-promo="bishop" class="btn">Bishop</button>
+        <button data-promo="knight" class="btn">Knight</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="end-modal" class="modal" hidden>
+    <div class="modal-card">
+      <h3 id="end-title">Game over</h3>
+      <p id="end-detail"></p>
+      <button id="btn-play-again" class="btn btn-primary">Play again</button>
+    </div>
+  </div>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="chess-engine.js"></script>
+  <script src="chess.js"></script>
+</body>
+</html>
