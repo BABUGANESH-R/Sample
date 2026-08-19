@@ -1,0 +1,304 @@
+:root {
+  --bg: #0f130d;
+  --panel: #171d14;
+  --olive: #6b7c3a;
+  --olive-bright: #8fa34c;
+  --khaki: #c4b07a;
+  --rust: #a13d2a;
+  --sand: #e8d9b0;
+  --muted: #8a907c;
+  --line: #2a3324;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, #24301c 0%, transparent 55%),
+    var(--bg);
+  color: var(--sand);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(15, 19, 13, 0.92);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--olive);
+  background: #1d2618;
+  color: var(--khaki);
+  font-size: 20px;
+}
+
+.brand h1 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.brand p {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hud-block {
+  min-width: 64px;
+}
+
+.hud-label,
+.health-wrap .hud-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hud-value {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--khaki);
+}
+
+.health-wrap {
+  min-width: 160px;
+}
+
+.health-bar {
+  height: 10px;
+  margin-top: 6px;
+  background: #2a1a16;
+  border: 1px solid #5a2d22;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--rust), #d9783a);
+  transition: width 0.15s linear;
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 520px;
+  background: #141910;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 10, 7, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay-card {
+  width: min(520px, calc(100% - 32px));
+  padding: 32px;
+  background: var(--panel);
+  border: 1px solid var(--olive);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.overlay-kicker {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--olive-bright);
+  margin-bottom: 8px;
+}
+
+.overlay-card h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 42px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin-bottom: 12px;
+}
+
+.overlay-card p {
+  color: #cfd4c0;
+  line-height: 1.55;
+}
+
+.overlay-keys {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  margin: 20px 0 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.overlay-keys kbd {
+  display: inline-block;
+  min-width: 28px;
+  margin-right: 4px;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  background: #10150e;
+  color: var(--sand);
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  text-align: center;
+}
+
+.btn-start {
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  background: linear-gradient(135deg, #6b7c3a, #3f4d22);
+  color: #f4efd8;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-start:hover {
+  filter: brightness(1.08);
+}
+
+.touch-controls {
+  position: absolute;
+  inset: auto 16px 16px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.touch-controls[hidden] {
+  display: none;
+}
+
+.dpad,
+.fire-btn {
+  pointer-events: auto;
+}
+
+.dpad {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.dpad-mid {
+  display: flex;
+  gap: 28px;
+}
+
+.dpad button,
+.fire-btn {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--olive);
+  background: rgba(23, 29, 20, 0.82);
+  color: var(--sand);
+  font-size: 18px;
+}
+
+.fire-btn {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.12em;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 24px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer a {
+  color: var(--khaki);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+@media (max-width: 800px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+
+  .overlay-card h2 {
+    font-size: 32px;
+  }
+}
