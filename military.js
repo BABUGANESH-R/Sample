@@ -644,7 +644,7 @@ function bindEvents() {
   fireBtn.addEventListener("mouseup", fireOff);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function boot() {
   resizeCanvas();
   setTouchControls();
   game.player = createPlayer();
@@ -656,7 +656,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof GameStatsTracker !== "undefined") {
     GameStatsTracker.addDashboardLink();
   }
-});
+
+  window.OutpostDefense = { game, startGame, fireBullet, pauseGame, resumeGame };
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot);
+} else {
+  boot();
+}
 
 window.addEventListener("beforeunload", () => {
   cancelAnimationFrame(rafId);

@@ -146,6 +146,7 @@ body {
   place-items: center;
   background: rgba(8, 10, 7, 0.72);
   backdrop-filter: blur(3px);
+  z-index: 20;
 }
 
 .overlay[hidden] {
