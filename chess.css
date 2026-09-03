@@ -318,17 +318,18 @@ body {
 }
 
 .dot {
-  width: 18%;
-  height: 18%;
+  width: 26%;
+  height: 26%;
   border-radius: 50%;
-  background: rgba(16, 185, 129, 0.75);
+  background: rgba(16, 185, 129, 0.88);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
 }
 
 .capture-ring {
   width: 78%;
   height: 78%;
   border-radius: 50%;
-  border: 4px solid rgba(16, 185, 129, 0.8);
+  border: 4px solid rgba(16, 185, 129, 0.9);
 }
 
 .history-card {
