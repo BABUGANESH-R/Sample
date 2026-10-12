@@ -2,6 +2,16 @@
 
 All notable changes to the Games Dashboard System will be documented in this file.
 
+## [1.1.0] - 2026-08-19
+
+### Added
+- Playable RIDDLE puzzle pack (Slide, Match, Echo) as the app hub
+- Puzzle-first dashboard with streak, weekly activity, and personal records
+- Direct play links from the dashboard into each puzzle
+- Load demo data button on the dashboard
+- Hub personal-best strip and in-game stats links
+- `dashboard-stats.js` helpers plus unit tests
+
 ## [1.0.0] - 2026-08-07
 
 ### 🎉 Initial Release

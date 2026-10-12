@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Games Dashboard</title>
+  <title>RIDDLE Dashboard</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
@@ -13,21 +14,31 @@
   <div class="dashboard-wrapper">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h1 class="sidebar-title">Games Hub</h1>
-        <p class="sidebar-subtitle">Track your progress</p>
+        <p class="sidebar-kicker">Puzzle app</p>
+        <h1 class="sidebar-title">RIDDLE</h1>
+        <p class="sidebar-subtitle">Track your puzzle progress</p>
       </div>
       <nav class="sidebar-nav">
         <button class="nav-item active" data-view="overview">
           <span class="nav-icon">📊</span>
           <span class="nav-label">Overview</span>
         </button>
+        <button class="nav-item" data-view="slide">
+          <span class="nav-icon">🧩</span>
+          <span class="nav-label">Slide</span>
+        </button>
+        <button class="nav-item" data-view="match">
+          <span class="nav-icon">🎴</span>
+          <span class="nav-label">Match</span>
+        </button>
+        <button class="nav-item" data-view="echo">
+          <span class="nav-icon">🎵</span>
+          <span class="nav-label">Echo</span>
+        </button>
+        <p class="nav-group">Other games</p>
         <button class="nav-item" data-view="chess">
           <span class="nav-icon">♟️</span>
           <span class="nav-label">Chess</span>
-        </button>
-        <button class="nav-item" data-view="riddle">
-          <span class="nav-icon">🧩</span>
-          <span class="nav-label">RIDDLE</span>
         </button>
         <button class="nav-item" data-view="snake">
           <span class="nav-icon">🐍</span>
@@ -35,96 +46,253 @@
         </button>
       </nav>
       <div class="sidebar-footer">
-        <button id="clear-data" class="btn-clear">Clear All Data</button>
+        <a href="index.html" class="btn-play">Play puzzles</a>
+        <button id="load-demo" class="btn-clear">Load demo data</button>
+        <button id="clear-data" class="btn-clear">Clear all data</button>
       </div>
     </aside>
 
     <main class="dashboard-main">
-      <!-- Overview Section -->
       <section id="overview-view" class="view active">
         <header class="view-header">
-          <h2 class="view-title">Overview</h2>
-          <p class="view-description">Your gaming statistics at a glance</p>
+          <div>
+            <h2 class="view-title">Puzzle dashboard</h2>
+            <p class="view-description">Slide, Match, and Echo stats in one place</p>
+          </div>
+          <a href="index.html" class="btn-primary">Play RIDDLE</a>
         </header>
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-icon">♟️</div>
-            <div class="stat-content">
-              <h3 class="stat-title">Chess</h3>
-              <p class="stat-value" id="chess-games-total">0</p>
-              <p class="stat-label">Games Played</p>
-            </div>
-          </div>
-
-          <div class="stat-card">
             <div class="stat-icon">🧩</div>
             <div class="stat-content">
-              <h3 class="stat-title">RIDDLE</h3>
+              <h3 class="stat-title">Puzzles solved</h3>
               <p class="stat-value" id="riddle-puzzles-total">0</p>
-              <p class="stat-label">Puzzles Solved</p>
+              <p class="stat-label">Slide + Match + Echo</p>
             </div>
           </div>
-
           <div class="stat-card">
-            <div class="stat-icon">🐍</div>
+            <div class="stat-icon">🔥</div>
             <div class="stat-content">
-              <h3 class="stat-title">Snake</h3>
-              <p class="stat-value" id="snake-high-score">0</p>
-              <p class="stat-label">High Score</p>
+              <h3 class="stat-title">Current streak</h3>
+              <p class="stat-value" id="puzzle-streak">0</p>
+              <p class="stat-label">Days in a row</p>
             </div>
           </div>
-
-          <div class="stat-card stat-card--highlight">
-            <div class="stat-icon">🎮</div>
+          <div class="stat-card">
+            <div class="stat-icon">🎵</div>
             <div class="stat-content">
-              <h3 class="stat-title">Total Play Time</h3>
+              <h3 class="stat-title">Echo best</h3>
+              <p class="stat-value" id="overview-echo-best">0</p>
+              <p class="stat-label">Highest level</p>
+            </div>
+          </div>
+          <div class="stat-card stat-card--highlight">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-content">
+              <h3 class="stat-title">Puzzle time</h3>
               <p class="stat-value" id="total-play-time">0h 0m</p>
-              <p class="stat-label">Across All Games</p>
+              <p class="stat-label">Time spent solving</p>
             </div>
           </div>
         </div>
 
+        <div class="panel-grid">
+          <section class="panel">
+            <h3 class="section-title">This week</h3>
+            <div id="weekly-activity" class="activity-chart" aria-label="Puzzles completed this week"></div>
+          </section>
+          <section class="panel">
+            <h3 class="section-title">Personal records</h3>
+            <ul class="records-list">
+              <li>
+                <span>Slide 3×3</span>
+                <strong id="record-slide-3">—</strong>
+              </li>
+              <li>
+                <span>Slide 4×4</span>
+                <strong id="record-slide-4">—</strong>
+              </li>
+              <li>
+                <span>Match tries</span>
+                <strong id="record-match">—</strong>
+              </li>
+              <li>
+                <span>Echo level</span>
+                <strong id="record-echo">—</strong>
+              </li>
+            </ul>
+          </section>
+        </div>
+
         <div class="quick-links">
-          <h3 class="section-title">Quick Play</h3>
+          <h3 class="section-title">Quick play</h3>
           <div class="quick-links-grid">
-            <a href="chess.html" class="quick-link-card">
-              <span class="quick-link-icon">♟️</span>
-              <span class="quick-link-title">Play Chess</span>
-            </a>
-            <a href="riddle.html" class="quick-link-card">
+            <a href="index.html#slide" class="quick-link-card">
               <span class="quick-link-icon">🧩</span>
-              <span class="quick-link-title">Play RIDDLE</span>
+              <span class="quick-link-title">Play Slide</span>
             </a>
-            <a href="snake.html" class="quick-link-card">
-              <span class="quick-link-icon">🐍</span>
-              <span class="quick-link-title">Play Snake</span>
+            <a href="index.html#match" class="quick-link-card">
+              <span class="quick-link-icon">🎴</span>
+              <span class="quick-link-title">Play Match</span>
             </a>
+            <a href="index.html#echo" class="quick-link-card">
+              <span class="quick-link-icon">🎵</span>
+              <span class="quick-link-title">Play Echo</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="history-section">
+          <h3 class="section-title">Recent puzzles</h3>
+          <div id="overview-history" class="history-list">
+            <p class="empty-state">No puzzles solved yet. Play Slide, Match, or Echo to fill this board.</p>
+          </div>
+        </div>
+
+        <div class="other-games">
+          <h3 class="section-title">Other games</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">♟️</div>
+              <div class="stat-content">
+                <h3 class="stat-title">Chess</h3>
+                <p class="stat-value" id="chess-games-total">0</p>
+                <p class="stat-label">Games played</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🐍</div>
+              <div class="stat-content">
+                <h3 class="stat-title">Snake</h3>
+                <p class="stat-value" id="snake-high-score">0</p>
+                <p class="stat-label">High score</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Chess Section -->
+      <section id="slide-view" class="view" hidden>
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Slide</h2>
+            <p class="view-description">Numbered tiles, 3×3 or 4×4</p>
+          </div>
+          <a href="index.html#slide" class="btn-primary">Play Slide</a>
+        </header>
+        <div class="stats-row">
+          <div class="metric-card">
+            <p class="metric-label">Games completed</p>
+            <p class="metric-value" id="slide-completed">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best moves (3×3)</p>
+            <p class="metric-value" id="slide-best-3x3">-</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best moves (4×4)</p>
+            <p class="metric-value" id="slide-best-4x4">-</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best time</p>
+            <p class="metric-value" id="slide-best-time">-</p>
+          </div>
+        </div>
+        <div class="history-section">
+          <h3 class="section-title">Recent completions</h3>
+          <div id="slide-history" class="history-list">
+            <p class="empty-state">No Slide puzzles completed yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="match-view" class="view" hidden>
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Match</h2>
+            <p class="view-description">Eight hidden pairs</p>
+          </div>
+          <a href="index.html#match" class="btn-primary">Play Match</a>
+        </header>
+        <div class="stats-row">
+          <div class="metric-card">
+            <p class="metric-label">Games completed</p>
+            <p class="metric-value" id="match-completed">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best tries</p>
+            <p class="metric-value" id="match-best-tries">-</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Avg tries</p>
+            <p class="metric-value" id="match-avg-tries">-</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Perfect games</p>
+            <p class="metric-value" id="match-perfect">0</p>
+          </div>
+        </div>
+        <div class="history-section">
+          <h3 class="section-title">Recent completions</h3>
+          <div id="match-history" class="history-list">
+            <p class="empty-state">No Match puzzles completed yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="echo-view" class="view" hidden>
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Echo</h2>
+            <p class="view-description">Repeat the growing light pattern</p>
+          </div>
+          <a href="index.html#echo" class="btn-primary">Play Echo</a>
+        </header>
+        <div class="stats-row">
+          <div class="metric-card">
+            <p class="metric-label">Games played</p>
+            <p class="metric-value" id="echo-games">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best level</p>
+            <p class="metric-value" id="echo-best-level">1</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Avg level</p>
+            <p class="metric-value" id="echo-avg-level">-</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Total patterns</p>
+            <p class="metric-value" id="echo-patterns">0</p>
+          </div>
+        </div>
+        <div class="history-section">
+          <h3 class="section-title">Recent games</h3>
+          <div id="echo-history" class="history-list">
+            <p class="empty-state">No Echo games played yet.</p>
+          </div>
+        </div>
+      </section>
+
       <section id="chess-view" class="view" hidden>
         <header class="view-header">
           <div>
-            <h2 class="view-title">♟️ Chess Dashboard</h2>
+            <h2 class="view-title">Chess</h2>
             <p class="view-description">Track your chess performance</p>
           </div>
-          <a href="chess.html" class="btn-primary">Play Chess</a>
         </header>
-
         <div class="stats-row">
           <div class="metric-card">
-            <p class="metric-label">Total Games</p>
+            <p class="metric-label">Total games</p>
             <p class="metric-value" id="chess-total-games">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">White Wins</p>
+            <p class="metric-label">White wins</p>
             <p class="metric-value" id="chess-white-wins">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">Black Wins</p>
+            <p class="metric-label">Black wins</p>
             <p class="metric-value" id="chess-black-wins">0</p>
           </div>
           <div class="metric-card">
@@ -132,155 +300,51 @@
             <p class="metric-value" id="chess-draws">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">Avg Moves</p>
+            <p class="metric-label">Avg moves</p>
             <p class="metric-value" id="chess-avg-moves">0</p>
           </div>
         </div>
-
         <div class="history-section">
-          <h3 class="section-title">Recent Games</h3>
+          <h3 class="section-title">Recent games</h3>
           <div id="chess-history" class="history-list">
             <p class="empty-state">No games played yet. Start your first game!</p>
           </div>
         </div>
       </section>
 
-      <!-- RIDDLE Section -->
-      <section id="riddle-view" class="view" hidden>
-        <header class="view-header">
-          <div>
-            <h2 class="view-title">🧩 RIDDLE Dashboard</h2>
-            <p class="view-description">Your puzzle-solving statistics</p>
-          </div>
-          <a href="riddle.html" class="btn-primary">Play RIDDLE</a>
-        </header>
-
-        <div class="puzzle-tabs">
-          <button class="puzzle-tab active" data-puzzle="slide">Slide</button>
-          <button class="puzzle-tab" data-puzzle="match">Match</button>
-          <button class="puzzle-tab" data-puzzle="echo">Echo</button>
-        </div>
-
-        <div id="slide-stats" class="puzzle-stats">
-          <div class="stats-row">
-            <div class="metric-card">
-              <p class="metric-label">Games Completed</p>
-              <p class="metric-value" id="slide-completed">0</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Best Moves (3×3)</p>
-              <p class="metric-value" id="slide-best-3x3">-</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Best Moves (4×4)</p>
-              <p class="metric-value" id="slide-best-4x4">-</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Best Time</p>
-              <p class="metric-value" id="slide-best-time">-</p>
-            </div>
-          </div>
-          <div class="history-section">
-            <h3 class="section-title">Recent Completions</h3>
-            <div id="slide-history" class="history-list">
-              <p class="empty-state">No Slide puzzles completed yet.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="match-stats" class="puzzle-stats" hidden>
-          <div class="stats-row">
-            <div class="metric-card">
-              <p class="metric-label">Games Completed</p>
-              <p class="metric-value" id="match-completed">0</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Best Tries</p>
-              <p class="metric-value" id="match-best-tries">-</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Avg Tries</p>
-              <p class="metric-value" id="match-avg-tries">-</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Perfect Games</p>
-              <p class="metric-value" id="match-perfect">0</p>
-            </div>
-          </div>
-          <div class="history-section">
-            <h3 class="section-title">Recent Completions</h3>
-            <div id="match-history" class="history-list">
-              <p class="empty-state">No Match puzzles completed yet.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="echo-stats" class="puzzle-stats" hidden>
-          <div class="stats-row">
-            <div class="metric-card">
-              <p class="metric-label">Games Played</p>
-              <p class="metric-value" id="echo-games">0</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Best Level</p>
-              <p class="metric-value" id="echo-best-level">1</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Avg Level</p>
-              <p class="metric-value" id="echo-avg-level">-</p>
-            </div>
-            <div class="metric-card">
-              <p class="metric-label">Total Patterns</p>
-              <p class="metric-value" id="echo-patterns">0</p>
-            </div>
-          </div>
-          <div class="history-section">
-            <h3 class="section-title">Recent Games</h3>
-            <div id="echo-history" class="history-list">
-              <p class="empty-state">No Echo games played yet.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Snake Section -->
       <section id="snake-view" class="view" hidden>
         <header class="view-header">
           <div>
-            <h2 class="view-title">🐍 Snake Dashboard</h2>
+            <h2 class="view-title">Snake</h2>
             <p class="view-description">Slither through your statistics</p>
           </div>
-          <a href="snake.html" class="btn-primary">Play Snake</a>
         </header>
-
         <div class="stats-row">
           <div class="metric-card metric-card--large">
-            <p class="metric-label">High Score</p>
+            <p class="metric-label">High score</p>
             <p class="metric-value metric-value--hero" id="snake-best-score">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">Games Played</p>
+            <p class="metric-label">Games played</p>
             <p class="metric-value" id="snake-games-played">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">Average Score</p>
+            <p class="metric-label">Average score</p>
             <p class="metric-value" id="snake-avg-score">0</p>
           </div>
           <div class="metric-card">
-            <p class="metric-label">Total Food</p>
+            <p class="metric-label">Total food</p>
             <p class="metric-value" id="snake-total-food">0</p>
           </div>
         </div>
-
         <div class="leaderboard-section">
-          <h3 class="section-title">Top 10 Scores</h3>
+          <h3 class="section-title">Top 10 scores</h3>
           <div id="snake-leaderboard" class="leaderboard">
             <p class="empty-state">No games played yet. Set your first record!</p>
           </div>
         </div>
-
         <div class="history-section">
-          <h3 class="section-title">Recent Games</h3>
+          <h3 class="section-title">Recent games</h3>
           <div id="snake-history" class="history-list">
             <p class="empty-state">No games played yet.</p>
           </div>
@@ -292,15 +356,17 @@
   <div id="confirm-modal" class="modal" hidden>
     <div class="modal-overlay"></div>
     <div class="modal-content">
-      <h3 class="modal-title">Clear All Data?</h3>
+      <h3 class="modal-title">Clear all data?</h3>
       <p class="modal-text">This will permanently delete all game statistics and history. This action cannot be undone.</p>
       <div class="modal-actions">
-        <button id="confirm-clear" class="btn-danger">Clear Data</button>
+        <button id="confirm-clear" class="btn-danger">Clear data</button>
         <button id="cancel-clear" class="btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
 
+  <script src="dashboard-stats.js"></script>
+  <script src="generate-sample-data.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>

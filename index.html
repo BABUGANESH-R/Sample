@@ -1,17 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-#para1 {
-  text-align: center;
-  color: red;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIDDLE — Simple Puzzles</title>
+  <meta name="description" content="RIDDLE — three quick puzzles: slide tiles, match pairs, and echo a pattern." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true">
+    <div class="atmosphere__wash"></div>
+    <div class="atmosphere__grid"></div>
+  </div>
 
-<p id="para1">Hello World!</p>
-<p>This paragraph is not affected by the style.</p>
+  <main class="app">
+    <section id="hub" class="screen screen--hub" aria-label="Welcome">
+      <div class="hero">
+        <div class="hero-top">
+          <p class="brand">RIDDLE</p>
+          <a class="dash-link" href="dashboard.html">Dashboard</a>
+        </div>
+        <h1 class="hero__headline">Three puzzles. One clear mind.</h1>
+        <p class="hero__lede">Slide tiles into place, flip matching pairs, or echo a growing pattern.</p>
+        <div class="puzzle-cards">
+          <button type="button" class="puzzle-card" data-play="slide">
+            <span class="puzzle-card__icon" aria-hidden="true">1</span>
+            <span class="puzzle-card__name">Slide</span>
+            <span class="puzzle-card__hint">Restore the numbered grid</span>
+          </button>
+          <button type="button" class="puzzle-card" data-play="match">
+            <span class="puzzle-card__icon" aria-hidden="true">?</span>
+            <span class="puzzle-card__name">Match</span>
+            <span class="puzzle-card__hint">Find eight hidden pairs</span>
+          </button>
+          <button type="button" class="puzzle-card" data-play="echo">
+            <span class="puzzle-card__icon" aria-hidden="true">●</span>
+            <span class="puzzle-card__name">Echo</span>
+            <span class="puzzle-card__hint">Repeat the light pattern</span>
+          </button>
+        </div>
+        <div class="hub-bests" id="hub-bests" hidden>
+          <p class="hub-bests__label">Your records</p>
+          <dl class="hub-bests__grid">
+            <div>
+              <dt>Solved</dt>
+              <dd id="hub-solved">0</dd>
+            </div>
+            <div>
+              <dt>Slide best</dt>
+              <dd id="hub-slide-best">—</dd>
+            </div>
+            <div>
+              <dt>Match best</dt>
+              <dd id="hub-match-best">—</dd>
+            </div>
+            <div>
+              <dt>Echo best</dt>
+              <dd id="hub-echo-best">—</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="tile-stack">
+          <span class="tile-chip tile-chip--a" style="--i:0">1</span>
+          <span class="tile-chip tile-chip--b" style="--i:1">?</span>
+          <span class="tile-chip tile-chip--c" style="--i:2">●</span>
+          <span class="tile-chip tile-chip--d" style="--i:3">4</span>
+        </div>
+      </div>
+    </section>
 
+    <section id="slide" class="screen screen--game" hidden aria-label="Slide puzzle">
+      <header class="game-bar">
+        <button type="button" class="brand brand--link" data-home aria-label="Back to home">RIDDLE</button>
+        <div class="game-bar__right">
+          <a class="dash-link dash-link--compact" href="dashboard.html">Stats</a>
+          <div class="stats" role="status" aria-live="polite">
+            <div class="stat">
+              <span class="stat__label">Moves</span>
+              <span class="stat__value" id="slide-moves">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Time</span>
+              <span class="stat__value" id="slide-time">0:00</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <p class="game-title">Slide</p>
+      <p class="game-hint">Tap a tile next to the blank. Arrow keys and swipes work too.</p>
+      <div class="board-wrap">
+        <div id="slide-board" class="board board--slide" role="grid" aria-label="Sliding puzzle board" tabindex="0"></div>
+      </div>
+      <footer class="game-controls">
+        <button type="button" class="btn btn--ghost" id="slide-shuffle">Shuffle</button>
+        <div class="size-toggle" role="group" aria-label="Board size">
+          <button type="button" class="chip" data-slide-size="3" aria-pressed="false">3×3</button>
+          <button type="button" class="chip is-active" data-slide-size="4" aria-pressed="true">4×4</button>
+        </div>
+      </footer>
+    </section>
+
+    <section id="match" class="screen screen--game" hidden aria-label="Match puzzle">
+      <header class="game-bar">
+        <button type="button" class="brand brand--link" data-home aria-label="Back to home">RIDDLE</button>
+        <div class="game-bar__right">
+          <a class="dash-link dash-link--compact" href="dashboard.html">Stats</a>
+          <div class="stats" role="status" aria-live="polite">
+            <div class="stat">
+              <span class="stat__label">Pairs</span>
+              <span class="stat__value" id="match-pairs">0/8</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Tries</span>
+              <span class="stat__value" id="match-tries">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Time</span>
+              <span class="stat__value" id="match-time">0:00</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <p class="game-title">Match</p>
+      <p class="game-hint">Flip two cards at a time. Clear all eight pairs.</p>
+      <div class="board-wrap">
+        <div id="match-board" class="board board--match" role="grid" aria-label="Memory match board"></div>
+      </div>
+      <footer class="game-controls">
+        <button type="button" class="btn btn--ghost" id="match-restart">New deal</button>
+      </footer>
+    </section>
+
+    <section id="echo" class="screen screen--game" hidden aria-label="Echo puzzle">
+      <header class="game-bar">
+        <button type="button" class="brand brand--link" data-home aria-label="Back to home">RIDDLE</button>
+        <div class="game-bar__right">
+          <a class="dash-link dash-link--compact" href="dashboard.html">Stats</a>
+          <div class="stats" role="status" aria-live="polite">
+            <div class="stat">
+              <span class="stat__label">Level</span>
+              <span class="stat__value" id="echo-level">1</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Best</span>
+              <span class="stat__value" id="echo-best">1</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <p class="game-title">Echo</p>
+      <p class="echo-status" id="echo-status">Watch the pattern</p>
+      <div class="board-wrap">
+        <div id="echo-board" class="board board--echo" role="group" aria-label="Echo pads"></div>
+      </div>
+      <footer class="game-controls">
+        <button type="button" class="btn btn--primary" id="echo-start">Start</button>
+      </footer>
+    </section>
+  </main>
+
+  <div id="win" class="win" hidden>
+    <div class="win__panel" role="dialog" aria-modal="true" aria-labelledby="win-title">
+      <p class="win__eyebrow">Solved</p>
+      <h2 class="win__title" id="win-title">Nice work</h2>
+      <p class="win__detail" id="win-detail"></p>
+      <div class="win__actions">
+        <button type="button" class="btn btn--primary" id="win-again">Play again</button>
+        <button type="button" class="btn btn--ghost" id="win-hub">All puzzles</button>
+        <a class="btn btn--ghost" href="dashboard.html">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

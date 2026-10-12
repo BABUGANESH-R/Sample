@@ -60,6 +60,32 @@ function generateSampleData() {
     });
   }
 
+  // Keep the last week visibly busy on the activity chart
+  for (let day = 0; day < 7; day++) {
+    const dayStart = Date.now() - day * 24 * 60 * 60 * 1000;
+    slidePuzzles.push({
+      timestamp: dayStart - Math.random() * 8 * 60 * 60 * 1000,
+      size: day % 2 === 0 ? 3 : 4,
+      moves: Math.floor(Math.random() * 80) + 30,
+      time: Math.floor(Math.random() * 240) + 45
+    });
+    if (day < 5) {
+      matchPuzzles.push({
+        timestamp: dayStart - Math.random() * 6 * 60 * 60 * 1000,
+        tries: Math.floor(Math.random() * 10) + 8,
+        pairs: 8,
+        time: Math.floor(Math.random() * 90) + 25
+      });
+    }
+    if (day < 4) {
+      echoGames.push({
+        timestamp: dayStart - Math.random() * 4 * 60 * 60 * 1000,
+        level: Math.floor(Math.random() * 8) + 3,
+        duration: Math.floor(Math.random() * 6) + 1
+      });
+    }
+  }
+
   localStorage.setItem('riddle-stats', JSON.stringify({
     slide: slidePuzzles,
     match: matchPuzzles,
