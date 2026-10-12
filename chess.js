@@ -313,13 +313,14 @@
   });
   btnUndo.addEventListener("click", () => {
     if (!historyStack.length || state.gameOver || thinking) return;
-    const steps = cpuColor() && historyStack.length >= 2 ? 2 : 1;
-    for (let i = 0; i < steps; i++) {
-      if (historyStack.length) state = historyStack.pop();
+    state = historyStack.pop();
+    while (cpuColor() && state.turn === cpuColor() && historyStack.length) {
+      state = historyStack.pop();
     }
     selected = null;
     legalTargets = [];
     render();
+    maybeComputerMove();
   });
   btnResign.addEventListener("click", () => {
     if (state.gameOver || thinking) return;

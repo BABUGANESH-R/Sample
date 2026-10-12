@@ -157,4 +157,35 @@ assert.strictEqual(perft(ChessEngine.createState(), 1), 20);
 assert.strictEqual(perft(ChessEngine.createState(), 2), 400);
 assert.strictEqual(perft(ChessEngine.createState(), 3), 8902);
 
+state = play(["f3", "e5", "g4", "Qh4"]);
+state.gameOver = false;
+state.winner = null;
+state.endReason = null;
+state.halfmoveClock = 100;
+ChessEngine.evaluateEnd(state);
+assert.strictEqual(state.endReason, "checkmate");
+assert.strictEqual(state.winner, "black");
+assert.strictEqual(state.inCheck, true);
+
+const bareKings = ChessEngine.createState();
+bareKings.board = Array.from({ length: 8 }, () => Array(8).fill(null));
+bareKings.board[7][4] = { type: "king", color: "white" };
+bareKings.board[0][4] = { type: "king", color: "black" };
+ChessEngine.evaluateEnd(bareKings);
+assert.strictEqual(bareKings.endReason, "insufficient");
+assert.strictEqual(bareKings.inCheck, false);
+
+state = ChessEngine.createState();
+const quiet = ChessEngine.makeMove(
+  state,
+  ChessEngine.parseSquare("e2"),
+  ChessEngine.parseSquare("e4"),
+  undefined,
+  { skipSan: true }
+);
+assert.strictEqual(quiet.ok, true);
+assert.strictEqual(quiet.move.san, undefined);
+assert.strictEqual(quiet.state.board[4][4].type, "pawn");
+assert.strictEqual(quiet.state.turn, "black");
+
 console.log("All chess engine tests passed.");

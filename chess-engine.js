@@ -486,6 +486,19 @@
   }
 
   function evaluateEnd(state) {
+    state.inCheck = isKingInCheck(state.board, state.turn);
+    const legal = getLegalMoves(state);
+    if (legal.length === 0) {
+      state.gameOver = true;
+      if (state.inCheck) {
+        state.winner = opposite(state.turn);
+        state.endReason = "checkmate";
+      } else {
+        state.winner = "draw";
+        state.endReason = "stalemate";
+      }
+      return;
+    }
     if (isInsufficientMaterial(state.board)) {
       state.gameOver = true;
       state.winner = "draw";
@@ -496,24 +509,30 @@
       state.gameOver = true;
       state.winner = "draw";
       state.endReason = "fifty-move";
-      return;
-    }
-    const legal = getLegalMoves(state);
-    state.inCheck = isKingInCheck(state.board, state.turn);
-    if (legal.length === 0) {
-      state.gameOver = true;
-      if (state.inCheck) {
-        state.winner = opposite(state.turn);
-        state.endReason = "checkmate";
-      } else {
-        state.winner = "draw";
-        state.endReason = "stalemate";
-      }
     }
   }
 
-  function makeMove(state, from, to, promotion) {
+  function cloneSearchState(state, board, castling, enPassantTarget) {
+    return {
+      board,
+      turn: opposite(state.turn),
+      castling,
+      enPassantTarget,
+      halfmoveClock: 0,
+      fullmoveNumber: state.fullmoveNumber,
+      inCheck: false,
+      gameOver: false,
+      winner: null,
+      endReason: null,
+      moveHistory: state.moveHistory,
+      capturedByWhite: state.capturedByWhite,
+      capturedByBlack: state.capturedByBlack,
+    };
+  }
+
+  function makeMove(state, from, to, promotion, options) {
     if (state.gameOver) return { ok: false, error: "Game is over" };
+    const skipSan = !!(options && options.skipSan);
     const legal = getLegalMoves(state, from);
     const match = legal.find((m) => m.to.r === to.r && m.to.c === to.c);
     if (!match) return { ok: false, error: "Illegal move" };
@@ -533,21 +552,31 @@
       promotion: match.promotion,
     };
 
-    const next = clone(state);
-    next.board = applyMoveToBoard(state.board, from, to, extras);
-    next.castling = updateCastling(state.castling, from, to, moving, captured);
-    next.enPassantTarget = null;
+    const nextBoard = applyMoveToBoard(state.board, from, to, extras);
+    const nextCastling = updateCastling(state.castling, from, to, moving, captured);
+    let nextEnPassant = null;
     if (moving.type === "pawn" && Math.abs(to.r - from.r) === 2) {
-      next.enPassantTarget = { r: (from.r + to.r) / 2, c: from.c };
-    }
-    next.halfmoveClock = moving.type === "pawn" || captured ? 0 : state.halfmoveClock + 1;
-    if (captured) {
-      if (moving.color === "white") next.capturedByWhite.push(captured.type);
-      else next.capturedByBlack.push(captured.type);
+      nextEnPassant = { r: (from.r + to.r) / 2, c: from.c };
     }
 
-    next.turn = opposite(state.turn);
-    if (moving.color === "black") next.fullmoveNumber = state.fullmoveNumber + 1;
+    let next;
+    if (skipSan) {
+      next = cloneSearchState(state, nextBoard, nextCastling, nextEnPassant);
+      next.halfmoveClock = moving.type === "pawn" || captured ? 0 : state.halfmoveClock + 1;
+      if (moving.color === "black") next.fullmoveNumber = state.fullmoveNumber + 1;
+    } else {
+      next = clone(state);
+      next.board = nextBoard;
+      next.castling = nextCastling;
+      next.enPassantTarget = nextEnPassant;
+      next.halfmoveClock = moving.type === "pawn" || captured ? 0 : state.halfmoveClock + 1;
+      if (captured) {
+        if (moving.color === "white") next.capturedByWhite.push(captured.type);
+        else next.capturedByBlack.push(captured.type);
+      }
+      next.turn = opposite(state.turn);
+      if (moving.color === "black") next.fullmoveNumber = state.fullmoveNumber + 1;
+    }
 
     const applied = {
       from,
@@ -559,8 +588,10 @@
       promotion: match.promotion,
     };
     evaluateEnd(next);
-    applied.san = toSan(state, applied, next);
-    next.moveHistory = state.moveHistory.concat(applied);
+    if (!skipSan) {
+      applied.san = toSan(state, applied, next);
+      next.moveHistory = state.moveHistory.concat(applied);
+    }
 
     return { ok: true, state: next, move: applied };
   }
@@ -594,6 +625,7 @@
     getLegalMoves,
     legalSquares,
     makeMove,
+    evaluateEnd,
     resign,
     agreeDraw,
     isKingInCheck,

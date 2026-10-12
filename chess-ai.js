@@ -62,7 +62,13 @@
     if (maximizing) {
       let bestScore = -Infinity;
       for (const option of options) {
-        const result = root.ChessEngine.makeMove(state, option.move.from, option.move.to, option.promotion);
+        const result = root.ChessEngine.makeMove(
+          state,
+          option.move.from,
+          option.move.to,
+          option.promotion,
+          { skipSan: true }
+        );
         if (!result.ok) continue;
         const child = minimax(result.state, depth - 1, false, forColor, alpha, beta);
         if (child.score > bestScore) {
@@ -77,7 +83,13 @@
 
     let bestScore = Infinity;
     for (const option of options) {
-      const result = root.ChessEngine.makeMove(state, option.move.from, option.move.to, option.promotion);
+      const result = root.ChessEngine.makeMove(
+        state,
+        option.move.from,
+        option.move.to,
+        option.promotion,
+        { skipSan: true }
+      );
       if (!result.ok) continue;
       const child = minimax(result.state, depth - 1, true, forColor, alpha, beta);
       if (child.score < bestScore) {
