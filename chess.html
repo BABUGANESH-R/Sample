@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="chess.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">♟️</span>
+        <div>
+          <h1>Chess</h1>
+          <p>Play locally or against the computer</p>
+        </div>
+      </div>
+      <a class="dashboard-link" href="dashboard.html">View Dashboard</a>
+    </header>
+
+    <main class="layout">
+      <aside class="panel panel-left">
+        <section class="card status-card">
+          <p class="eyebrow">Status</p>
+          <h2 id="turn-label">White to move</h2>
+          <p id="status-detail">Select a piece, then a highlighted square.</p>
+        </section>
+
+        <section class="card">
+          <p class="eyebrow">Mode</p>
+          <label class="field">
+            <span>Opponent</span>
+            <select id="mode-select">
+              <option value="local">Two players</option>
+              <option value="cpu-black">Play as White vs computer</option>
+              <option value="cpu-white">Play as Black vs computer</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="card">
+          <p class="eyebrow">Captured by White</p>
+          <div id="captured-white" class="captured-row" aria-live="polite"></div>
+          <p class="eyebrow">Captured by Black</p>
+          <div id="captured-black" class="captured-row" aria-live="polite"></div>
+        </section>
+
+        <section class="card actions">
+          <button id="btn-new" class="btn btn-primary" type="button">New Game</button>
+          <button id="btn-undo" class="btn" type="button">Undo</button>
+          <button id="btn-flip" class="btn" type="button">Flip Board</button>
+          <button id="btn-resign" class="btn btn-danger" type="button">Resign</button>
+          <button id="btn-draw" class="btn" type="button">Offer Draw</button>
+        </section>
+
+        <section class="card stats-card">
+          <p class="eyebrow">Your record</p>
+          <div class="mini-stats">
+            <div>
+              <strong id="stat-games">0</strong>
+              <span>Games</span>
+            </div>
+            <div>
+              <strong id="stat-white">0</strong>
+              <span>White</span>
+            </div>
+            <div>
+              <strong id="stat-black">0</strong>
+              <span>Black</span>
+            </div>
+            <div>
+              <strong id="stat-draws">0</strong>
+              <span>Draws</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="board-wrap">
+        <div class="board-frame">
+          <div id="rank-labels" class="rank-labels" aria-hidden="true"></div>
+          <div id="board" class="board" role="grid" aria-label="Chess board"></div>
+        </div>
+        <div class="file-row">
+          <span class="rank-spacer" aria-hidden="true"></span>
+          <div id="file-labels" class="file-labels"></div>
+        </div>
+      </section>
+
+      <aside class="panel panel-right">
+        <section class="card history-card">
+          <p class="eyebrow">Move History</p>
+          <ol id="move-list" class="move-list"></ol>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="promotion-modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="promo-title">
+      <h3 id="promo-title">Promote pawn</h3>
+      <p>Choose a piece</p>
+      <div class="promo-choices">
+        <button data-promo="queen" class="btn promo-btn" type="button">Queen ♕</button>
+        <button data-promo="rook" class="btn promo-btn" type="button">Rook ♖</button>
+        <button data-promo="bishop" class="btn promo-btn" type="button">Bishop ♗</button>
+        <button data-promo="knight" class="btn promo-btn" type="button">Knight ♘</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="end-modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="end-title">
+      <h3 id="end-title">Game over</h3>
+      <p id="end-detail"></p>
+      <button id="btn-play-again" class="btn btn-primary" type="button">Play again</button>
+    </div>
+  </div>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="chess-engine.js"></script>
+  <script src="chess-ai.js"></script>
+  <script src="chess.js"></script>
+</body>
+</html>
