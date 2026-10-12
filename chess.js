@@ -200,9 +200,16 @@
     };
   }
 
+  function hasHumanMoveToUndo() {
+    if (!historyStack.length) return false;
+    const cpu = cpuColor();
+    if (!cpu) return true;
+    return state.moveHistory.some((move) => move.piece.color !== cpu);
+  }
+
   function updateButtons() {
     const ended = state.gameOver;
-    btnUndo.disabled = ended || thinking || historyStack.length === 0;
+    btnUndo.disabled = ended || thinking || !hasHumanMoveToUndo();
     btnResign.disabled = ended || thinking;
     btnDraw.disabled = ended || thinking;
   }
