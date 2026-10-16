@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle Game</title>
+    <link rel="stylesheet" href="puzzle.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧩 Sliding Puzzle</h1>
+            <p class="subtitle">Arrange the tiles in order!</p>
+        </header>
+
+        <div class="game-info">
+            <div class="info-card">
+                <div class="info-label">Moves</div>
+                <div class="info-value" id="moves">0</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Time</div>
+                <div class="info-value" id="timer">00:00</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Best</div>
+                <div class="info-value" id="best-score">-</div>
+            </div>
+        </div>
+
+        <div class="puzzle-container">
+            <div id="puzzle-board" class="puzzle-board"></div>
+        </div>
+
+        <div class="controls">
+            <button id="new-game-btn" class="btn btn-primary">New Game</button>
+            <button id="solve-btn" class="btn btn-secondary">Show Solution</button>
+        </div>
+
+        <div class="difficulty-selector">
+            <label>Difficulty:</label>
+            <button class="difficulty-btn active" data-size="3">Easy (3×3)</button>
+            <button class="difficulty-btn" data-size="4">Medium (4×4)</button>
+            <button class="difficulty-btn" data-size="5">Hard (5×5)</button>
+        </div>
+    </div>
+
+    <div id="win-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 Congratulations!</h2>
+            <p>You solved the puzzle!</p>
+            <div class="win-stats">
+                <div class="win-stat">
+                    <span class="win-label">Moves:</span>
+                    <span class="win-value" id="final-moves">0</span>
+                </div>
+                <div class="win-stat">
+                    <span class="win-label">Time:</span>
+                    <span class="win-value" id="final-time">00:00</span>
+                </div>
+            </div>
+            <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+        </div>
+    </div>
+
+    <script src="puzzle.js"></script>
+</body>
+</html>
