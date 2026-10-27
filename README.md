@@ -1,6 +1,8 @@
 # Games Dashboard System
 
-A comprehensive dashboard system for tracking and visualizing game statistics across multiple browser-based games.
+Open [`index.html`](index.html) for **Desk**, a simple personal dashboard. It tracks tasks, notes, and the last seven days of completed work, and keeps everything in this browser.
+
+The rest of this project is a statistics dashboard for browser games. Open [`dashboard.html`](dashboard.html) for chess, puzzle, and snake history.
 
 ## 🎮 Supported Games
 
@@ -52,9 +54,12 @@ GameStatsTracker.addDashboardLink();
 ## 📁 File Structure
 
 ```
-├── dashboard.html              # Main dashboard interface
-├── dashboard-style.css         # Dashboard styling
-├── dashboard.js                # Dashboard logic
+├── index.html                  # Desk, a simple personal dashboard
+├── style.css                   # Desk styling
+├── script.js                   # Desk logic
+├── dashboard.html              # Game statistics dashboard
+├── dashboard-style.css         # Game dashboard styling
+├── dashboard.js                # Game dashboard logic
 ├── game-stats-tracker.js       # Integration module
 ├── DASHBOARD_INTEGRATION.md    # Detailed integration guide
 └── integration-examples/       # Example code for each game
