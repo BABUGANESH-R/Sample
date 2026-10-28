@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Chess</title>
+  <meta name="description" content="A simple two-player chess game that runs entirely in your browser." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1 class="app__title">Simple Chess</h1>
+      <p class="app__subtitle">Click a piece, then click a highlighted square to move.</p>
+    </header>
+
+    <section class="status" aria-live="polite">
+      <div class="status__turn">
+        <span class="status__dot" id="turn-dot" data-color="w" aria-hidden="true"></span>
+        <span id="turn-text">White to move</span>
+      </div>
+      <div class="status__detail" id="status-detail"></div>
+    </section>
+
+    <section class="game">
+      <aside class="captured" aria-label="Captured black pieces">
+        <h2 class="captured__title">Captured by White</h2>
+        <div class="captured__row" id="captured-black"></div>
+      </aside>
+
+      <div class="board-wrap">
+        <div class="files files--top" id="files-top" aria-hidden="true"></div>
+        <div class="board-row">
+          <div class="ranks" id="ranks-left" aria-hidden="true"></div>
+          <div class="board" id="board" role="grid" aria-label="Chess board"></div>
+          <div class="ranks" id="ranks-right" aria-hidden="true"></div>
+        </div>
+        <div class="files files--bottom" id="files-bottom" aria-hidden="true"></div>
+      </div>
+
+      <aside class="captured" aria-label="Captured white pieces">
+        <h2 class="captured__title">Captured by Black</h2>
+        <div class="captured__row" id="captured-white"></div>
+      </aside>
+    </section>
+
+    <section class="controls">
+      <button type="button" id="btn-new" class="btn btn--primary">New game</button>
+      <button type="button" id="btn-undo" class="btn">Undo</button>
+      <button type="button" id="btn-flip" class="btn">Flip board</button>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <h2 id="history-title" class="history__title">Move history</h2>
+      <ol class="history__list" id="history-list"></ol>
+    </section>
+  </main>
+
+  <div class="modal" id="promotion-modal" hidden role="dialog" aria-modal="true" aria-labelledby="promo-title">
+    <div class="modal__card">
+      <h2 id="promo-title" class="modal__title">Promote pawn</h2>
+      <p class="modal__text">Choose a piece.</p>
+      <div class="promo" id="promo-choices"></div>
+    </div>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
