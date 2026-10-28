@@ -33,6 +33,10 @@
           <span class="nav-icon">🐍</span>
           <span class="nav-label">Snake</span>
         </button>
+        <button class="nav-item" data-view="military">
+          <span class="nav-icon">⚔</span>
+          <span class="nav-label">Military</span>
+        </button>
       </nav>
       <div class="sidebar-footer">
         <button id="clear-data" class="btn-clear">Clear All Data</button>
@@ -75,6 +79,15 @@
             </div>
           </div>
 
+          <div class="stat-card">
+            <div class="stat-icon">⚔</div>
+            <div class="stat-content">
+              <h3 class="stat-title">Military</h3>
+              <p class="stat-value" id="military-high-score">0</p>
+              <p class="stat-label">High Score</p>
+            </div>
+          </div>
+
           <div class="stat-card stat-card--highlight">
             <div class="stat-icon">🎮</div>
             <div class="stat-content">
@@ -99,6 +112,10 @@
             <a href="snake.html" class="quick-link-card">
               <span class="quick-link-icon">🐍</span>
               <span class="quick-link-title">Play Snake</span>
+            </a>
+            <a href="military.html" class="quick-link-card">
+              <span class="quick-link-icon">⚔</span>
+              <span class="quick-link-title">Play Military</span>
             </a>
           </div>
         </div>
@@ -283,6 +300,54 @@
           <h3 class="section-title">Recent Games</h3>
           <div id="snake-history" class="history-list">
             <p class="empty-state">No games played yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Military Section -->
+      <section id="military-view" class="view" hidden>
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">⚔ Military Dashboard</h2>
+            <p class="view-description">Outpost Defense after-action reports</p>
+          </div>
+          <a href="military.html" class="btn-primary">Play Military</a>
+        </header>
+
+        <div class="stats-row">
+          <div class="metric-card metric-card--large">
+            <p class="metric-label">High Score</p>
+            <p class="metric-value metric-value--hero" id="military-best-score">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Games Played</p>
+            <p class="metric-value" id="military-games-played">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Best Wave</p>
+            <p class="metric-value" id="military-best-wave">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Total Kills</p>
+            <p class="metric-value" id="military-total-kills">0</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-label">Average Score</p>
+            <p class="metric-value" id="military-avg-score">0</p>
+          </div>
+        </div>
+
+        <div class="leaderboard-section">
+          <h3 class="section-title">Top 10 Scores</h3>
+          <div id="military-leaderboard" class="leaderboard">
+            <p class="empty-state">No missions completed yet. Hold the outpost!</p>
+          </div>
+        </div>
+
+        <div class="history-section">
+          <h3 class="section-title">Recent Missions</h3>
+          <div id="military-history" class="history-list">
+            <p class="empty-state">No missions completed yet.</p>
           </div>
         </div>
       </section>

@@ -6,11 +6,12 @@ The rest of this project is a statistics dashboard for browser games. Open [`das
 
 ## 🎮 Supported Games
 
-This dashboard system supports three games:
+This dashboard system supports four games:
 
 - **♟️ Chess** - Two-player chess with move tracking and game history
 - **🧩 RIDDLE** - Three puzzle types: Slide, Match, and Echo
 - **🐍 Snake** - Classic snake game with high score tracking
+- **⚔ Military** - Outpost Defense wave shooter with score, wave, and kill tracking
 
 ## 📊 Dashboard Features
 
@@ -62,10 +63,14 @@ GameStatsTracker.addDashboardLink();
 ├── dashboard.js                # Game dashboard logic
 ├── game-stats-tracker.js       # Integration module
 ├── DASHBOARD_INTEGRATION.md    # Detailed integration guide
+├── military.html               # Outpost Defense mini military game
+├── military.css                # Military game styling
+├── military.js                 # Military game logic
 └── integration-examples/       # Example code for each game
     ├── chess-integration-example.js
     ├── riddle-integration-example.js
-    └── snake-integration-example.js
+    ├── snake-integration-example.js
+    └── military-integration-example.js
 ```
 
 ## 📖 Documentation
@@ -106,6 +111,14 @@ GameStatsTracker.addDashboardLink();
 - Top 10 leaderboard
 - Recent game history
 
+### Military (Outpost Defense)
+- High score
+- Best wave reached
+- Total hostiles defeated
+- Average score
+- Top 10 leaderboard
+- Recent mission history
+
 ## 💾 Data Storage
 
 All statistics are stored in your browser's `localStorage`:
@@ -115,6 +128,8 @@ All statistics are stored in your browser's `localStorage`:
 - `snake-stats` - Snake game history
 - `snake-best` - Snake high score
 - `echo-best` - Echo best level
+- `military-stats` - Outpost Defense mission history
+- `military-best` - Outpost Defense high score
 
 Data persists between sessions and can be cleared using the "Clear All Data" button in the dashboard.
 

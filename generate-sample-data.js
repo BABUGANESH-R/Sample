@@ -93,6 +93,30 @@ function generateSampleData() {
   console.log(`✓ Generated ${snakeGames.length} snake games`);
   console.log(`✓ Snake best score: ${bestScore}`);
 
+  // Generate Military games
+  const militaryGames = [];
+  let militaryBest = 0;
+
+  for (let i = 0; i < 28; i++) {
+    const wave = Math.floor(Math.random() * 10) + 1;
+    const kills = Math.floor(Math.random() * 40) + wave * 3;
+    const score = kills * 12 + wave * 20;
+    if (score > militaryBest) militaryBest = score;
+
+    militaryGames.push({
+      timestamp: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000,
+      score,
+      wave,
+      kills,
+      duration: Math.floor(Math.random() * 8) + 1
+    });
+  }
+
+  localStorage.setItem('military-stats', JSON.stringify({ games: militaryGames }));
+  localStorage.setItem('military-best', militaryBest);
+  console.log(`✓ Generated ${militaryGames.length} military games`);
+  console.log(`✓ Military best score: ${militaryBest}`);
+
   console.log('\n✅ Sample data generated successfully!');
   console.log('📊 Refresh the page to see your data in the dashboard.');
 
@@ -106,6 +130,10 @@ function generateSampleData() {
     snake: {
       games: snakeGames.length,
       best: bestScore
+    },
+    military: {
+      games: militaryGames.length,
+      best: militaryBest
     }
   };
 }
@@ -116,6 +144,8 @@ function clearSampleData() {
   localStorage.removeItem('snake-stats');
   localStorage.removeItem('snake-best');
   localStorage.removeItem('echo-best');
+  localStorage.removeItem('military-stats');
+  localStorage.removeItem('military-best');
   console.log('✅ All sample data cleared!');
   console.log('📊 Refresh the page to see the empty dashboard.');
 }

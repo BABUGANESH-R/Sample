@@ -93,7 +93,7 @@ class DashboardManager {
   }
 
   clearAllData() {
-    const keys = ['chess-stats', 'riddle-stats', 'snake-stats', 'snake-best'];
+    const keys = ['chess-stats', 'riddle-stats', 'snake-stats', 'snake-best', 'military-stats', 'military-best'];
     keys.forEach(key => localStorage.removeItem(key));
     this.loadAllData();
   }
@@ -117,6 +117,9 @@ class DashboardManager {
       case 'snake':
         this.loadSnakeData();
         break;
+      case 'military':
+        this.loadMilitaryData();
+        break;
       case 'overview':
         this.loadOverviewData();
         break;
@@ -128,12 +131,14 @@ class DashboardManager {
     const chessStats = this.getChessStats();
     const riddleStats = this.getRiddleStats();
     const snakeStats = this.getSnakeStats();
+    const militaryStats = this.getMilitaryStats();
 
     document.getElementById('chess-games-total').textContent = chessStats.totalGames;
     document.getElementById('riddle-puzzles-total').textContent = riddleStats.totalCompleted;
     document.getElementById('snake-high-score').textContent = snakeStats.best;
+    document.getElementById('military-high-score').textContent = militaryStats.best;
 
-    const totalMinutes = chessStats.totalTime + riddleStats.totalTime + snakeStats.totalTime;
+    const totalMinutes = chessStats.totalTime + riddleStats.totalTime + snakeStats.totalTime + militaryStats.totalTime;
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     document.getElementById('total-play-time').textContent = `${hours}h ${minutes}m`;
@@ -404,6 +409,76 @@ class DashboardManager {
               <div class="history-item-details">
                 <p class="history-item-title">${isRecord ? 'New Record!' : 'Game Over'}</p>
                 <p class="history-item-meta">${date}</p>
+              </div>
+            </div>
+            <div class="history-item-value">${game.score}</div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // Military Data
+  getMilitaryStats() {
+    const data = JSON.parse(localStorage.getItem('military-stats') || '{"games": []}');
+    const best = parseInt(localStorage.getItem('military-best') || '0', 10);
+
+    return {
+      best,
+      gamesPlayed: data.games.length,
+      bestWave: data.games.length > 0 ? Math.max(...data.games.map(g => g.wave || 1)) : 0,
+      totalKills: data.games.reduce((sum, g) => sum + (g.kills || 0), 0),
+      avgScore: data.games.length > 0
+        ? Math.round(data.games.reduce((sum, g) => sum + (g.score || 0), 0) / data.games.length)
+        : 0,
+      totalTime: data.games.reduce((sum, g) => sum + (g.duration || 1), 0),
+      games: data.games
+    };
+  }
+
+  loadMilitaryData() {
+    const stats = this.getMilitaryStats();
+
+    document.getElementById('military-best-score').textContent = stats.best;
+    document.getElementById('military-games-played').textContent = stats.gamesPlayed;
+    document.getElementById('military-best-wave').textContent = stats.bestWave;
+    document.getElementById('military-total-kills').textContent = stats.totalKills;
+    document.getElementById('military-avg-score').textContent = stats.avgScore;
+
+    const leaderboard = document.getElementById('military-leaderboard');
+    const topScores = [...stats.games]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+
+    if (topScores.length === 0) {
+      leaderboard.innerHTML = '<p class="empty-state">No missions completed yet. Hold the outpost!</p>';
+    } else {
+      leaderboard.innerHTML = topScores.map((game, idx) => {
+        const date = new Date(game.timestamp).toLocaleDateString();
+        return `
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank">#${idx + 1}</div>
+            <div class="leaderboard-date">Wave ${game.wave || 1} · ${date}</div>
+            <div class="leaderboard-score">${game.score}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    const historyEl = document.getElementById('military-history');
+    if (stats.games.length === 0) {
+      historyEl.innerHTML = '<p class="empty-state">No missions completed yet.</p>';
+    } else {
+      historyEl.innerHTML = stats.games.slice(-10).reverse().map((game) => {
+        const date = new Date(game.timestamp).toLocaleDateString();
+        const isRecord = game.score === stats.best && game.score > 0;
+        return `
+          <div class="history-item">
+            <div class="history-item-main">
+              <div class="history-item-badge">${isRecord ? '🏆' : '⚔'}</div>
+              <div class="history-item-details">
+                <p class="history-item-title">${isRecord ? 'New Record!' : `Wave ${game.wave || 1}`}</p>
+                <p class="history-item-meta">${game.kills || 0} kills · ${date}</p>
               </div>
             </div>
             <div class="history-item-value">${game.score}</div>

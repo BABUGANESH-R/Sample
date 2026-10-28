@@ -60,6 +60,18 @@ GameStatsTracker.saveMatchPuzzle({
 });
 ```
 
+#### ⚔ Military (Outpost Defense)
+
+```javascript
+// When the mission ends:
+GameStatsTracker.saveMilitaryGame({
+  score: currentScore,
+  wave: currentWave,
+  kills: currentKills,
+  duration: Math.floor((Date.now() - startTime) / 60000) || 1
+});
+```
+
 #### 🧩 RIDDLE - Echo Game
 
 ```javascript
