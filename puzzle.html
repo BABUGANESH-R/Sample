@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slide Puzzle</title>
+  <link rel="stylesheet" href="puzzle.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1 class="app__title">🧩 Slide Puzzle</h1>
+      <p class="app__subtitle">Arrange the tiles in order. Click a tile next to the empty space, or use the arrow keys.</p>
+    </header>
+
+    <section class="toolbar" aria-label="Game controls">
+      <div class="toolbar__group" role="radiogroup" aria-label="Puzzle size">
+        <button class="chip" data-size="3" type="button" role="radio" aria-checked="true">3 × 3</button>
+        <button class="chip" data-size="4" type="button" role="radio" aria-checked="false">4 × 4</button>
+        <button class="chip" data-size="5" type="button" role="radio" aria-checked="false">5 × 5</button>
+      </div>
+
+      <div class="toolbar__group">
+        <button id="shuffle-btn" class="btn btn--primary" type="button">Shuffle</button>
+        <button id="solve-btn" class="btn btn--ghost" type="button" title="Reset to the solved state">Reset</button>
+      </div>
+    </section>
+
+    <section class="stats" aria-live="polite">
+      <div class="stat">
+        <span class="stat__label">Moves</span>
+        <span id="moves" class="stat__value">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Time</span>
+        <span id="timer" class="stat__value">0:00</span>
+      </div>
+      <div class="stat">
+        <span class="stat__label">Best</span>
+        <span id="best" class="stat__value">—</span>
+      </div>
+    </section>
+
+    <section class="board-wrap">
+      <div id="board" class="board" aria-label="Puzzle board"></div>
+      <div id="win-overlay" class="win-overlay" hidden>
+        <div class="win-card">
+          <h2>Solved! 🎉</h2>
+          <p id="win-summary">You did it.</p>
+          <button id="play-again" class="btn btn--primary" type="button">Play again</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app__footer">
+      <small>Tip: press <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> to slide tiles.</small>
+    </footer>
+  </main>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="puzzle.js"></script>
+</body>
+</html>
