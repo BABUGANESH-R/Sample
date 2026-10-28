@@ -2,6 +2,25 @@
 
 All notable changes to the Games Dashboard System will be documented in this file.
 
+## [1.1.0] - 2026-10-28
+
+### Added
+
+**Desk personal dashboard** (`index.html`)
+- Greeting, date, and a short summary of open work
+- Summary cards for open tasks, tasks finished today, tasks finished in the last seven days, and saved notes
+- Task list with high, medium, and low priority
+- Search plus All, Open, and Done filters
+- Notes, a recent activity feed, and a seven-day completion chart
+- Sample data on the first visit, with Reset and Load sample
+- Browser-only storage under `desk.v1`
+- Footer link to the game statistics page
+
+### Changed
+
+- `index.html`, `style.css`, and `script.js` now serve Desk instead of the placeholder page
+- `README.md` points to Desk first and keeps the game statistics dashboard at `dashboard.html`
+
 ## [1.0.0] - 2026-08-07
 
 ### 🎉 Initial Release
@@ -243,13 +262,14 @@ Designed for easy integration and minimal overhead.
 
 ## Version History
 
+- **1.1.0** (2026-10-28) - Desk, a simple personal dashboard for tasks, notes, and weekly activity
 - **1.0.0** (2026-08-07) - Initial release with full dashboard system
 
 ---
 
 ## Upgrading
 
-This is the initial release. Future versions will include upgrade instructions here.
+Desk stores its own data in this browser and does not change chess, RIDDLE, or snake statistics. Open `index.html` for Desk and `dashboard.html` for game stats.
 
 ## Contributing
 
@@ -272,6 +292,6 @@ For issues, questions, or feature requests:
 
 ---
 
-**Dashboard Version:** 1.0.0  
-**Release Date:** August 7, 2026  
+**Dashboard Version:** 1.1.0  
+**Release Date:** October 28, 2026  
 **Status:** Stable
