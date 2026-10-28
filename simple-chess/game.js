@@ -46,8 +46,10 @@
   function renderBoard() {
     boardEl.innerHTML = "";
     const outcome = E.checkGameState(state);
-    const inCheck = !outcome.over && outcome.inCheck;
-    const kingSquare = inCheck ? E.findKing(state.board, state.turn) : null;
+    const highlightKing =
+      (!outcome.over && outcome.inCheck) ||
+      (outcome.over && outcome.result === "checkmate");
+    const kingSquare = highlightKing ? E.findKing(state.board, state.turn) : null;
 
     for (let i = 0; i < 64; i++) {
       const r = flipped ? 7 - Math.floor(i / 8) : Math.floor(i / 8);
