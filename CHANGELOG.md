@@ -2,6 +2,12 @@
 
 All notable changes to the Games Dashboard System will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- Playable Snake game (`snake.html`) with a tested engine (`snake-engine.js`, `test-snake-engine.js`). Finished games are saved to the dashboard via `GameStatsTracker.saveSnakeGame`.
+
 ## [1.0.0] - 2026-08-07
 
 ### 🎉 Initial Release

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake</title>
+  <link rel="stylesheet" href="snake.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🐍</span>
+        <div>
+          <h1>Snake</h1>
+          <p>Arrow keys or WASD to steer, Space to pause</p>
+        </div>
+      </div>
+      <a class="dashboard-link" href="dashboard.html">View Dashboard</a>
+    </header>
+
+    <main class="game">
+      <div class="scoreboard">
+        <div class="score-box">
+          <span class="eyebrow">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="score-box">
+          <span class="eyebrow">Best</span>
+          <strong id="best">0</strong>
+        </div>
+        <div class="actions">
+          <button id="btn-pause" class="btn" type="button">Pause</button>
+          <button id="btn-restart" class="btn btn-primary" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <canvas id="board" width="400" height="400" aria-label="Snake board"></canvas>
+        <div id="overlay" class="overlay">
+          <h2 id="overlay-title">Snake</h2>
+          <p id="overlay-detail">Press Space or a direction to start.</p>
+          <button id="btn-start" class="btn btn-primary" type="button">Start</button>
+        </div>
+      </div>
+
+      <div class="dpad" aria-label="Touch controls">
+        <button class="btn dpad-btn dpad-up" data-dir="up" type="button" aria-label="Up">▲</button>
+        <button class="btn dpad-btn dpad-left" data-dir="left" type="button" aria-label="Left">◀</button>
+        <button class="btn dpad-btn dpad-right" data-dir="right" type="button" aria-label="Right">▶</button>
+        <button class="btn dpad-btn dpad-down" data-dir="down" type="button" aria-label="Down">▼</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="game-stats-tracker.js"></script>
+  <script src="snake-engine.js"></script>
+  <script src="snake.js"></script>
+</body>
+</html>

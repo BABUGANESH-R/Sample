@@ -10,7 +10,7 @@ This dashboard system supports three games:
 
 - **♟️ Chess** - Two-player chess with move tracking and game history
 - **🧩 RIDDLE** - Three puzzle types: Slide, Match, and Echo
-- **🐍 Snake** - Classic snake game with high score tracking
+- **🐍 Snake** - Classic snake game with high score tracking. Open [`snake.html`](snake.html) to play (arrow keys/WASD, Space to pause, touch buttons on mobile)
 
 ## 📊 Dashboard Features
 
@@ -61,6 +61,11 @@ GameStatsTracker.addDashboardLink();
 ├── dashboard-style.css         # Game dashboard styling
 ├── dashboard.js                # Game dashboard logic
 ├── game-stats-tracker.js       # Integration module
+├── snake.html                  # Snake game page
+├── snake.css                   # Snake styling
+├── snake-engine.js             # Snake rules (pure logic)
+├── snake.js                    # Snake UI and stats saving
+├── test-snake-engine.js        # Snake engine tests (node test-snake-engine.js)
 ├── DASHBOARD_INTEGRATION.md    # Detailed integration guide
 └── integration-examples/       # Example code for each game
     ├── chess-integration-example.js
